@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * 后台管理页面控制器
  *
- * @auth: machao
+ * @author: Anshay
  * @date: 2018/11/28
  */
 @Controller

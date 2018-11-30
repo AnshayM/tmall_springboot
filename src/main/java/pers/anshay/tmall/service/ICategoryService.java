@@ -5,7 +5,7 @@ import pers.anshay.tmall.pojo.Category;
 import java.util.List;
 
 /**
- * @auth: machao
+ * @author: Anshay
  * @date: 2018/11/28
  */
 public interface ICategoryService {

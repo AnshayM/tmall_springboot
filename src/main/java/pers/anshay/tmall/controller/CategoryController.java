@@ -9,7 +9,7 @@ import pers.anshay.tmall.service.ICategoryService;
 import java.util.List;
 
 /**
- * @auth: machao
+ * @author: Anshay
  * @date: 2018/11/28
  */
 @RestController

@@ -25,8 +25,9 @@
                 list:function(start){
                     var url =  this.uri+ "?start="+start;
                     axios.get(url).then(function(response) {
+                        console.log(response)
                         vue.pagination = response.data;
-                        vue.beans = response.data	;
+                        vue.beans = response.data;
                     });
                 },
                 add: function () {

@@ -6,7 +6,7 @@ import pers.anshay.tmall.pojo.Category;
 /**
  * CategoryDao
  *
- * @auth: machao
+ * @author: Anshay
  * @date: 2018/11/28
  */
 public interface CategoryDao extends JpaRepository<Category, Integer> {
