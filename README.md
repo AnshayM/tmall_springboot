@@ -5,6 +5,6 @@
 
 前后台涉及的技术将在后面慢慢添加进来。
 
-前端：bootstrap
+前端：Vue.js, bootstrap
 
-后端：
+后端：Springboot
