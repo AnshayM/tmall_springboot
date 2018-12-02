@@ -23,7 +23,7 @@
             },
             methods: {
                 list: function (start) {
-                    var url = this.uri + "?start=" + start;
+                    let url = "category/list" + "?start=" + start;
                     axios.get(url).then(function (response) {
                         console.log(response)
                         vue.pagination = response.data;
@@ -35,10 +35,10 @@
                         return;
                     if (!checkEmpty(this.file, "分类图片"))
                         return;
-                    var url = this.uri;
+                    let url = "category/add";
 
                     //axios.js 上传文件要用 formData 这种方式
-                    var formData = new FormData();
+                    let formData = new FormData();
                     formData.append("image", this.file);
                     formData.append("name", this.bean.name);
                     axios.post(url, formData).then(function (response) {
