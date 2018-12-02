@@ -7,4 +7,4 @@
 
 前端：Vue.js, bootstrap
 
-后端：Springboot
+后端：Springboot, mybatis, jpa
