@@ -62,4 +62,9 @@ public class CategoryServiceImpl implements ICategoryService {
         ImageIO.write(img, "jpg", file);
     }
 
+    @Override
+    public void delete(Integer id) {
+        categoryDao.delete(id);
+    }
+
 }

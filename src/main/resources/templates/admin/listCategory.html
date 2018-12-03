@@ -7,7 +7,7 @@
 <script>
     $(function () {
         var data4Vue = {
-            uri: 'categories',
+            uri: 'category',
             beans: [],
             bean: {id: 0, name: ''},
             pagination: {},
@@ -42,6 +42,8 @@
                     formData.append("image", this.file);
                     formData.append("name", this.bean.name);
                     axios.post(url, formData).then(function (response) {
+                        console.log("返回数据");
+                        console.log(response);
                         vue.list(0);
                         vue.bean = {id: 0, name: '', hp: '0'};
                         $("#categoryPic").val('');
@@ -51,10 +53,12 @@
                 deleteBean: function (id) {
                     if (!checkDeleteLink())
                         return;
-                    var url = this.uri + "/" + id;
+                    let url = "category/" + id;
                     axios.delete(url).then(function (response) {
-                        if (0 != response.data.length) {
-                            alert(response.data);
+                        console.log("返回删除结果");
+                        console.log(response);
+                        if (response.data.status) {
+                            alert(response.data.message);
                         }
                         else {
                             vue.list(0);

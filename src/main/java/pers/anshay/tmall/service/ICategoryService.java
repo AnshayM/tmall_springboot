@@ -49,4 +49,10 @@ public interface ICategoryService {
      */
     void saveOrUpdateImageFile(Category category, MultipartFile image, HttpServletRequest request) throws IOException;
 
+    /**
+     * 根据id删除
+     *
+     * @param id id
+     */
+    void delete(Integer id);
 }
