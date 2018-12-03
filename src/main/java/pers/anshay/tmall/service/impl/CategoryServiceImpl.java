@@ -67,4 +67,9 @@ public class CategoryServiceImpl implements ICategoryService {
         categoryDao.delete(id);
     }
 
+    @Override
+    public Category get(Integer id) {
+        return categoryDao.findOne(id);
+    }
+
 }

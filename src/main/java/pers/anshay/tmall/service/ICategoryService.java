@@ -55,4 +55,12 @@ public interface ICategoryService {
      * @param id id
      */
     void delete(Integer id);
+
+    /**
+     * 根据id获取分类实体
+     *
+     * @param id id
+     * @return Category
+     */
+    Category get(Integer id);
 }

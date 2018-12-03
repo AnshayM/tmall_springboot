@@ -74,4 +74,14 @@ public class CategoryController {
         return response;
     }
 
+    /**
+     * 根据id获取分类实体
+     *
+     * @param id id
+     * @return Category
+     */
+    @GetMapping("/{id}")
+    public Category get(@PathVariable("id") Integer id) {
+        return categoryService.get(id);
+    }
 }
