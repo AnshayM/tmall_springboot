@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.util.Page4Navigator;
-import pers.anshay.tmall.util.SimpleResponse;
+import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -60,8 +60,8 @@ public class CategoryController {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public SimpleResponse deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
-        SimpleResponse response = new SimpleResponse();
+    public Result deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
+        Result response = new Result();
 
         categoryService.delete(id);
 
@@ -69,7 +69,7 @@ public class CategoryController {
         File file = new File(imageFolder, id + ".jpg");
         file.delete();
 
-        response.setStatus(SimpleResponse.SUCCESS);
+        response.setSuccess(true);
         response.setMessage("删除成功!");
         return response;
     }
@@ -83,5 +83,25 @@ public class CategoryController {
     @GetMapping("/{id}")
     public Category get(@PathVariable("id") Integer id) {
         return categoryService.get(id);
+    }
+
+    /**
+     * 更新
+     *
+     * @param category
+     * @param image
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @PutMapping("/{id}")
+    public Result update(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+        String name = request.getParameter("name");
+        category.setName(name);
+        categoryService.update(category);
+        if (image != null) {
+            categoryService.saveOrUpdateImageFile(category, image, request);
+        }
+        return null;
     }
 }

@@ -12,6 +12,7 @@ import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.util.ImageUtil;
 import pers.anshay.tmall.util.Page4Navigator;
+import pers.anshay.tmall.util.Result;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -70,6 +71,17 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public Category get(Integer id) {
         return categoryDao.findOne(id);
+    }
+
+    @Override
+    public Result update(Category category) {
+        Result response = new Result();
+
+        categoryDao.save(category);
+
+        response.setSuccess(true);
+        response.setMessage("修改成功");
+        return response;
     }
 
 }

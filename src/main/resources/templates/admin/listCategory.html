@@ -57,7 +57,7 @@
                     axios.delete(url).then(function (response) {
                         console.log("返回删除结果");
                         console.log(response);
-                        if (response.data.status) {
+                        if (response.data.success) {
                             alert(response.data.message);
                         }
                         else {

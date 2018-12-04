@@ -3,6 +3,7 @@ package pers.anshay.tmall.service;
 import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.util.Page4Navigator;
+import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -63,4 +64,12 @@ public interface ICategoryService {
      * @return Category
      */
     Category get(Integer id);
+
+    /**
+     * 更新category
+     *
+     * @param category category
+     * @return Result
+     */
+    Result update(Category category);
 }

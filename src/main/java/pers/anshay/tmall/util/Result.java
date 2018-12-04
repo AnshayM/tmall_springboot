@@ -1,19 +1,17 @@
 package pers.anshay.tmall.util;
 
 /**
- * 返回数据的包装类
+ * 自定义返回对象封装类
  *
  * @author: Anshay
  * @date: 2018/12/3
  */
-public class SimpleResponse {
-    public static final boolean SUCCESS = true;
-    public static final boolean FAIL = false;
+public class Result {
 
     /**
-     * 返回状态 True:SUCCESS，False:FAIL
+     * 返回状态
      */
-    private boolean status;
+    private boolean success;
 
     /**
      * 提示性文字
@@ -25,12 +23,12 @@ public class SimpleResponse {
      */
     private Object content;
 
-    public boolean isStatus() {
-        return status;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public String getMessage() {
