@@ -46,4 +46,13 @@ public class Result {
     public void setContent(Object content) {
         this.content = content;
     }
+
+    public Result() {
+    }
+
+    public Result(boolean success, String message, Object content) {
+        this.success = success;
+        this.message = message;
+        this.content = content;
+    }
 }
