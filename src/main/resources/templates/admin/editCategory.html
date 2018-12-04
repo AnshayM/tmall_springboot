@@ -26,7 +26,6 @@
                     var url = this.uri + "/" + id;
                     axios.get(url).then(function (response) {
                         console.log("查询此分类实体");
-
                         console.log(response);
                         vue.bean = response.data;
                     })

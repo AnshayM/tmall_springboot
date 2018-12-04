@@ -61,7 +61,7 @@ public class CategoryController {
      */
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
-        Result response = new Result();
+        Result result = new Result();
 
         categoryService.delete(id);
 
@@ -69,9 +69,9 @@ public class CategoryController {
         File file = new File(imageFolder, id + ".jpg");
         file.delete();
 
-        response.setSuccess(true);
-        response.setMessage("删除成功!");
-        return response;
+        result.setSuccess(true);
+        result.setMessage("删除成功!");
+        return result;
     }
 
     /**
@@ -86,12 +86,12 @@ public class CategoryController {
     }
 
     /**
-     * 更新
+     * 更新category和相应图片(修改或者删除)
      *
      * @param category
      * @param image
      * @param request
-     * @return
+     * @return Result
      * @throws IOException
      */
     @PutMapping("/{id}")
@@ -102,6 +102,6 @@ public class CategoryController {
         if (image != null) {
             categoryService.saveOrUpdateImageFile(category, image, request);
         }
-        return null;
+        return new Result(true, "更新成功", category);
     }
 }
