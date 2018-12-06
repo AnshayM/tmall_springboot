@@ -8,3 +8,6 @@
 前端：Vue.js, bootstrap
 
 后端：Springboot, mybatis, jpa
+
+
+开发规范，每次提交时都使用阿里巴巴编码规约插件扫描，虽然时一个人开发的，但是保持一个好习惯也是必要的。
