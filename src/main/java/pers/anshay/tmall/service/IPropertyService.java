@@ -15,8 +15,9 @@ public interface IPropertyService {
      * 添加
      *
      * @param property property
+     * @return Property
      */
-    void add(Property property);
+    Property add(Property property);
 
     /**
      * 删除

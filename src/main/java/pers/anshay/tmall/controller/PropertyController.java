@@ -2,6 +2,7 @@ package pers.anshay.tmall.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.service.IPropertyService;
 import pers.anshay.tmall.util.ConstantKey;
@@ -42,8 +43,8 @@ public class PropertyController {
      */
     @PostMapping("/add")
     public Result add(@RequestBody Property property) {
-        propertyService.add(property);
-        return new Result(true, "添加成功！", property);
+        Property bean = propertyService.add(property);
+        return new Result(true, "添加成功！", bean);
     }
 
     /**

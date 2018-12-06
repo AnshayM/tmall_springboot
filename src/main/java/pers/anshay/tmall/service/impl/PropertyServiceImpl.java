@@ -27,8 +27,8 @@ public class PropertyServiceImpl implements IPropertyService {
     CategoryDao categoryDao;
 
     @Override
-    public void add(Property property) {
-        propertyDao.save(property);
+    public Property add(Property property) {
+       return propertyDao.save(property);
     }
 
     @Override
