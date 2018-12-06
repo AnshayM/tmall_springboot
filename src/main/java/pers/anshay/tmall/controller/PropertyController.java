@@ -2,7 +2,6 @@ package pers.anshay.tmall.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.service.IPropertyService;
 import pers.anshay.tmall.util.ConstantKey;
@@ -14,7 +13,7 @@ import pers.anshay.tmall.util.Result;
  * @date: 2018/12/5
  */
 @RestController
-@RequestMapping("property")
+@RequestMapping("/property")
 public class PropertyController {
     @Autowired
     IPropertyService propertyService;
