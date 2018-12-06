@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.service.ICategoryService;
+import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
 import pers.anshay.tmall.util.Result;
 
@@ -33,18 +34,16 @@ public class CategoryController {
     public Page4Navigator<Category> list(@RequestParam(value = "start", defaultValue = "0") int start,
                                          @RequestParam(value = "size", defaultValue = "5") int size) {
         start = start < 0 ? 0 : start;
-        /*导航分页数。类似【1，2，3，4，5】这样*/
-        Integer navigatePages = 5;
-        Page4Navigator<Category> page = categoryService.list(start, size, navigatePages);
+        Page4Navigator<Category> page = categoryService.list(start, size, ConstantKey.NAVIGATE_PAGE_SIZE);
         return page;
     }
 
     /**
      * 添加新分类
      *
-     * @param category
-     * @param image
-     * @param request
+     * @param category category
+     * @param image    image
+     * @param request  request
      * @throws IOException
      */
     @PostMapping("/add")
