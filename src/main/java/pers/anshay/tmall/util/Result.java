@@ -55,4 +55,8 @@ public class Result {
         this.message = message;
         this.content = content;
     }
+
+    public Result(boolean success) {
+        this.success = success;
+    }
 }
