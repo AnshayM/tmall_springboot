@@ -14,8 +14,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "product")
-@JsonIgnoreProperties({ "handler","hibernateLazyInitializer"})
-@Document(indexName = "tmall_springboot",type = "product")
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
+@Document(indexName = "tmall_springboot", type = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,9 @@ public class Product {
     private float promotePrice;
     private int stock;
     private Date createDate;
+
+    @Transient
+    private ProductImage firstPrductImage;
 
     public Integer getId() {
         return id;
@@ -97,4 +100,11 @@ public class Product {
         this.createDate = createDate;
     }
 
+    public ProductImage getFirstPrductImage() {
+        return firstPrductImage;
+    }
+
+    public void setFirstPrductImage(ProductImage firstPrductImage) {
+        this.firstPrductImage = firstPrductImage;
+    }
 }
