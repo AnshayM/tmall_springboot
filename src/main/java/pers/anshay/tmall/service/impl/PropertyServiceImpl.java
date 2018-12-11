@@ -13,6 +13,8 @@ import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.service.IPropertyService;
 import pers.anshay.tmall.util.Page4Navigator;
 
+import java.util.List;
+
 /**
  * PropertyServiceImpl
  *
@@ -28,7 +30,7 @@ public class PropertyServiceImpl implements IPropertyService {
 
     @Override
     public Property add(Property property) {
-       return propertyDao.save(property);
+        return propertyDao.save(property);
     }
 
     @Override
@@ -56,5 +58,10 @@ public class PropertyServiceImpl implements IPropertyService {
         Page<Property> pageFromJPA = propertyDao.findByCategory(category, pageable);
         return new Page4Navigator<>(pageFromJPA, navigatePages);
 
+    }
+
+    @Override
+    public List<Property> listByCategory(Category category) {
+        return propertyDao.findByCategory(category);
     }
 }

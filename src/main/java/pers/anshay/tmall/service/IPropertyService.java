@@ -1,7 +1,10 @@
 package pers.anshay.tmall.service;
 
+import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.util.Page4Navigator;
+
+import java.util.List;
 
 /**
  * IPropertyService
@@ -51,4 +54,12 @@ public interface IPropertyService {
      * @return Page4Navigator
      */
     Page4Navigator<Property> list(Integer cid, Integer start, Integer size, Integer navigatePages);
+
+    /**
+     * 根据分类查询所有属性集合
+     *
+     * @param category category
+     * @return List<Property>
+     */
+    List<Property> listByCategory(Category category);
 }
