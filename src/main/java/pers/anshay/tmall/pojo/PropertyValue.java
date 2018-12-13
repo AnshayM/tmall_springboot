@@ -24,7 +24,7 @@ public class PropertyValue {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "pid")
+    @JoinColumn(name = "ptid")
     private Property property;
 
     private String value;

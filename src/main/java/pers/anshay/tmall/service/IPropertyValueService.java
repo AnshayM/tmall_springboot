@@ -41,6 +41,7 @@ public interface IPropertyValueService {
      * 更新
      *
      * @param propertyValue propertyValue
+     * @return PropertyValue
      */
     PropertyValue update(PropertyValue propertyValue);
 }

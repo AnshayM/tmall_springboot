@@ -25,9 +25,9 @@ public interface PropertyValueDao extends JpaRepository<PropertyValue, Integer> 
     /**
      * getByPropertyAndProduct
      *
-     * @param Property Property
+     * @param property property
      * @param product  product
      * @return PropertyValue
      */
-    PropertyValue getByPropertyAndProduct(Property Property, Product product);
+    PropertyValue getByPropertyAndProduct(Property property, Product product);
 }
