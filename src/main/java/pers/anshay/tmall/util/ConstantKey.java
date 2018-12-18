@@ -21,4 +21,11 @@ public class ConstantKey {
      * ProductImage细节图
      */
     public static final String TYPE_DETAIL = "detail";
+
+    public static final String WAIT_PAY = "waitPay";
+    public static final String WAIT_DELIVERY = "waitDelivery";
+    public static final String WAIT_CONFIRM = "waitConfirm";
+    public static final String WAIT_REVIEW = "waitReview";
+    public static final String FINISH = "finish";
+    public static final String DELETE = "delete";
 }
