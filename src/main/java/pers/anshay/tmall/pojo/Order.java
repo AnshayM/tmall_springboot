@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单
@@ -18,10 +19,11 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "uid")
+    @JoinColumn(name="uid")
+
     private User user;
 
     private String orderCode;
@@ -31,16 +33,25 @@ public class Order {
     private String mobile;
     private String userMessage;
     private Date createDate;
-    private Date payDdate;
-    private Date deliverDate;
+    private Date payDate;
+    private Date deliveryDate;
     private Date confirmDate;
     private String status;
 
-    public Integer getId() {
+    @Transient
+    private List<OrderItem> orderItems;
+    @Transient
+    private float total;
+    @Transient
+    private int totalNumber;
+    @Transient
+    private String statusDesc;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -108,20 +119,20 @@ public class Order {
         this.createDate = createDate;
     }
 
-    public Date getPayDdate() {
-        return payDdate;
+    public Date getPayDate() {
+        return payDate;
     }
 
-    public void setPayDdate(Date payDdate) {
-        this.payDdate = payDdate;
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 
-    public Date getDeliverDate() {
-        return deliverDate;
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setDeliverDate(Date deliverDate) {
-        this.deliverDate = deliverDate;
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public Date getConfirmDate() {
@@ -138,5 +149,37 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public int getTotalNumber() {
+        return totalNumber;
+    }
+
+    public void setTotalNumber(int totalNumber) {
+        this.totalNumber = totalNumber;
+    }
+
+    public String getStatusDesc() {
+        return statusDesc;
+    }
+
+    public void setStatusDesc(String statusDesc) {
+        this.statusDesc = statusDesc;
     }
 }
