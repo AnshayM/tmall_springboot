@@ -7,7 +7,7 @@ import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
-import pers.anshay.tmall.util.Result;
+import pers.anshay.tmall.util.TmResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -61,8 +61,8 @@ public class CategoryController {
      * @param id id
      */
     @DeleteMapping("/{id}")
-    public Result deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
-        Result result = new Result();
+    public TmResult deleteById(@PathVariable("id") Integer id, HttpServletRequest request) {
+        TmResult result = new TmResult();
 
         categoryService.delete(id);
 
@@ -92,17 +92,17 @@ public class CategoryController {
      * @param category
      * @param image
      * @param request
-     * @return Result
+     * @return TmResult
      * @throws IOException
      */
     @PutMapping("/{id}")
-    public Result update(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
+    public TmResult update(Category category, MultipartFile image, HttpServletRequest request) throws IOException {
         String name = request.getParameter("name");
         category.setName(name);
         categoryService.update(category);
         if (image != null) {
             categoryService.saveOrUpdateImageFile(category, image, request);
         }
-        return new Result(true, "更新成功", category);
+        return new TmResult(true, "更新成功", category);
     }
 }

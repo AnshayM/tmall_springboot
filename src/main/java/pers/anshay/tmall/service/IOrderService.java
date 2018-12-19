@@ -13,14 +13,42 @@ import java.util.List;
  */
 public interface IOrderService {
 
-    /*下面的方法返回值需要修改*/
+    /**
+     * 分页查询
+     *
+     * @param start         start
+     * @param size          size
+     * @param navigatePages navigatePages
+     * @return Page4Navigator
+     */
     Page4Navigator<Order> list(Integer start, Integer size, Integer navigatePages);
 
+    /**
+     * 从订单中删除产品
+     *
+     * @param orders orders
+     */
     void removeOrderFromOrderItem(List<Order> orders);
 
+    /**
+     * 从订单中删除产品
+     *
+     * @param order order
+     */
     void removeOrderFromOrderItem(Order order);
 
+    /**
+     * 通过id获取订单
+     *
+     * @param orderId orderId
+     * @return Order
+     */
     Order get(Integer orderId);
 
+    /**
+     * 更新订单
+     *
+     * @param order order
+     */
     void update(Order order);
 }

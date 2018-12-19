@@ -1,34 +1,43 @@
 package pers.anshay.tmall.util;
 
 /**
- * 自定义返回对象封装类
+ * 统一的 REST响应对象
  *
  * @author: Anshay
- * @date: 2018/12/3
+ * @date: 2018/12/13
  */
 public class Result {
+    public static int SUCCESS_CODE = 0;
+    public static int FAIL_CODE = 1;
 
-    /**
-     * 返回状态
-     */
-    private boolean success;
+    int code;
+    String message;
+    Object data;
 
-    /**
-     * 提示性文字
-     */
-    private String message;
-
-    /**
-     * 内容
-     */
-    private Object content;
-
-    public boolean isSuccess() {
-        return success;
+    private Result(int code, String message, Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public static Result success() {
+        return new Result(SUCCESS_CODE, null, null);
+    }
+
+    public static Result success(Object data) {
+        return new Result(SUCCESS_CODE, "", data);
+    }
+
+    public static Result fail(String message) {
+        return new Result(FAIL_CODE, message, null);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -39,29 +48,11 @@ public class Result {
         this.message = message;
     }
 
-    public Object getContent() {
-        return content;
+    public Object getData() {
+        return data;
     }
 
-    public void setContent(Object content) {
-        this.content = content;
-    }
-
-    public Result() {
-    }
-
-    public Result(boolean success, String message, Object content) {
-        this.success = success;
-        this.message = message;
-        this.content = content;
-    }
-
-    public Result(boolean success) {
-        this.success = success;
-    }
-
-    public Result(boolean success, String message) {
-        this.success = success;
-        this.message = message;
+    public void setData(Object data) {
+        this.data = data;
     }
 }

@@ -24,7 +24,6 @@ public class OrderItemServiceImpl implements IOrderItemService {
     @Autowired
     IProductImageService productImageService;
 
-
     @Override
     public void fill(List<Order> orders) {
         for (Order order : orders) {

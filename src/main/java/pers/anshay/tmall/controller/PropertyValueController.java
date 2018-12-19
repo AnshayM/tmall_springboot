@@ -6,7 +6,7 @@ import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.PropertyValue;
 import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.service.IPropertyValueService;
-import pers.anshay.tmall.util.Result;
+import pers.anshay.tmall.util.TmResult;
 
 import java.util.List;
 
@@ -25,16 +25,16 @@ public class PropertyValueController {
     IProductService productService;
 
     @GetMapping("/{pid}/list")
-    public Result list(@PathVariable("pid") Integer pid) {
+    public TmResult list(@PathVariable("pid") Integer pid) {
         Product product = productService.get(pid);
         propertyValueService.init(product);
         List<PropertyValue> propertyValues = propertyValueService.list(product);
-        return new Result(true, "查询成功", propertyValues);
+        return new TmResult(true, "查询成功", propertyValues);
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody PropertyValue propertyValue) {
+    public TmResult update(@RequestBody PropertyValue propertyValue) {
         PropertyValue bean = propertyValueService.update(propertyValue);
-        return new Result(true, "更新成功", bean);
+        return new TmResult(true, "更新成功", bean);
     }
 }

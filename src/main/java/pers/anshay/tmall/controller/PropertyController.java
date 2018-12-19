@@ -6,7 +6,7 @@ import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.service.IPropertyService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
-import pers.anshay.tmall.util.Result;
+import pers.anshay.tmall.util.TmResult;
 
 /**
  * @author: Anshay
@@ -24,7 +24,7 @@ public class PropertyController {
      * @param cid   cid
      * @param start start
      * @param size  size
-     * @return Result
+     * @return TmResult
      */
     @GetMapping("/{cid}/list")
     public Page4Navigator<Property> list(@PathVariable("cid") Integer cid, @RequestParam(value = "start", defaultValue = "0") Integer start,
@@ -38,12 +38,12 @@ public class PropertyController {
      * 添加
      *
      * @param property property
-     * @return Result
+     * @return TmResult
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Property property) {
+    public TmResult add(@RequestBody Property property) {
         Property bean = propertyService.add(property);
-        return new Result(true, "添加成功！", bean);
+        return new TmResult(true, "添加成功！", bean);
     }
 
     /**
@@ -53,27 +53,27 @@ public class PropertyController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") Integer id) {
+    public TmResult delete(@PathVariable("id") Integer id) {
         propertyService.delete(id);
-        return new Result(true, "删除成功", id);
+        return new TmResult(true, "删除成功", id);
     }
 
     /**
      * 更新
      *
      * @param property
-     * @return Result
+     * @return TmResult
      */
     @PutMapping("/update")
-    public Result update(@RequestBody Property property) {
+    public TmResult update(@RequestBody Property property) {
         propertyService.update(property);
-        return new Result(true, "更新成功", property);
+        return new TmResult(true, "更新成功", property);
     }
 
     @GetMapping("/{id}")
-    public Result get(@PathVariable("id") Integer id) {
+    public TmResult get(@PathVariable("id") Integer id) {
         Property property = propertyService.get(id);
-        return new Result(true, "查询成功！", property);
+        return new TmResult(true, "查询成功！", property);
     }
 
 }

@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import pers.anshay.tmall.util.ConstantKey;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class Order {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="uid")
+    @JoinColumn(name = "uid")
 
     private User user;
 
@@ -176,6 +177,33 @@ public class Order {
     }
 
     public String getStatusDesc() {
+        if (null != statusDesc) {
+            return statusDesc;
+        }
+        String desc = "未知";
+        switch (status) {
+            case ConstantKey.WAIT_PAY:
+                desc = "待付";
+                break;
+            case ConstantKey.WAIT_DELIVERY:
+                desc = "待发";
+                break;
+            case ConstantKey.WAIT_CONFIRM:
+                desc = "待收";
+                break;
+            case ConstantKey.WAIT_REVIEW:
+                desc = "等评";
+                break;
+            case ConstantKey.FINISH:
+                desc = "完成";
+                break;
+            case ConstantKey.DELETE:
+                desc = "刪除";
+                break;
+            default:
+                desc = "未知";
+        }
+        statusDesc = desc;
         return statusDesc;
     }
 

@@ -12,7 +12,7 @@ public interface IProductService {
      * 添加
      *
      * @param product product
-     * @return Result
+     * @return TmResult
      */
     Product add(Product product);
 
@@ -20,7 +20,7 @@ public interface IProductService {
      * 删除
      *
      * @param id id
-     * @return Result
+     * @return TmResult
      */
     void delete(Integer id);
 
@@ -28,7 +28,7 @@ public interface IProductService {
      * 根据id查询产品
      *
      * @param id id
-     * @return Result
+     * @return TmResult
      */
     Product get(Integer id);
 
@@ -36,7 +36,7 @@ public interface IProductService {
      * 更新
      *
      * @param product product
-     * @return Result
+     * @return TmResult
      */
     Product update(Product product);
 

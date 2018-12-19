@@ -7,7 +7,7 @@ import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
-import pers.anshay.tmall.util.Result;
+import pers.anshay.tmall.util.TmResult;
 
 import java.util.Date;
 
@@ -44,48 +44,48 @@ public class ProductController {
      * 添加
      *
      * @param product product
-     * @return Result
+     * @return TmResult
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Product product) {
+    public TmResult add(@RequestBody Product product) {
         product.setCreateDate(new Date());
         Product bean = productService.add(product);
-        return new Result(true, "添加成功！", bean);
+        return new TmResult(true, "添加成功！", bean);
     }
 
     /**
      * 删除
      *
      * @param id id
-     * @return Result
+     * @return TmResult
      */
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") Integer id) {
+    public TmResult delete(@PathVariable("id") Integer id) {
         productService.delete(id);
-        return new Result(true, "删除成功", id);
+        return new TmResult(true, "删除成功", id);
     }
 
     /**
      * 更新
      *
      * @param product product
-     * @return Result
+     * @return TmResult
      */
     @PutMapping("/update")
-    public Result update(@RequestBody Product product) {
+    public TmResult update(@RequestBody Product product) {
         productService.update(product);
-        return new Result(true, "更新成功", product);
+        return new TmResult(true, "更新成功", product);
     }
 
     /**
      * 查询单个Product
      *
      * @param id id
-     * @return Result
+     * @return TmResult
      */
     @GetMapping("/{id}")
-    public Result get(@PathVariable("id") Integer id) {
+    public TmResult get(@PathVariable("id") Integer id) {
         Product product = productService.get(id);
-        return new Result(true, "查询成功！", product);
+        return new TmResult(true, "查询成功！", product);
     }
 }
