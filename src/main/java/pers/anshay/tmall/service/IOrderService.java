@@ -24,14 +24,14 @@ public interface IOrderService {
     Page4Navigator<Order> list(Integer start, Integer size, Integer navigatePages);
 
     /**
-     * 从订单中删除产品
+     * 订单里的订单项的订单属性设置为空
      *
      * @param orders orders
      */
     void removeOrderFromOrderItem(List<Order> orders);
 
     /**
-     * 从订单中删除产品
+     * 订单里的订单项的订单属性设置为空
      *
      * @param order order
      */
