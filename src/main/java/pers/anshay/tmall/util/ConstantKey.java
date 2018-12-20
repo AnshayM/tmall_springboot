@@ -14,6 +14,11 @@ public class ConstantKey {
     public static final int NAVIGATE_PAGE_SIZE = 5;
 
     /**
+     * 匿名长度
+     */
+    public static final int ANONYMOUS_NAME_LENGTH_TWO = 2;
+
+    /**
      * ProductImage缩略图
      */
     public static final String TYPE_SINGLE = "single";

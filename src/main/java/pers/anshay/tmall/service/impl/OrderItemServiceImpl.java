@@ -7,7 +7,6 @@ import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IProductImageService;
-import pers.anshay.tmall.service.IProductService;
 
 import java.util.List;
 

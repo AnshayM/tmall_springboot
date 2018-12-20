@@ -49,11 +49,11 @@ public class ProductImageServiceImpl implements IProductImageService {
     public void setFirstProductImage(Product product) {
         List<ProductImage> singleImages = listProductImage(product, ConstantKey.TYPE_SINGLE);
         if (!singleImages.isEmpty()) {
-            product.setFirstPrductImage(singleImages.get(0));
+            product.setFirstProductImage(singleImages.get(0));
         } else {
-//            暂时不懂作用
-//            考虑到产品还没有设置图片时，但是在订单后台管理里查看订单项的对应产品图片
-//            product.setFirstPrductImage(new ProductImage());
+            /*考虑到产品还没有设置图片时，但是在订单后台管理里要查看订单项的对应产品图片获取对应图片id为空
+             * 这里设一个默认空图*/
+            product.setFirstProductImage(new ProductImage());
         }
 
     }

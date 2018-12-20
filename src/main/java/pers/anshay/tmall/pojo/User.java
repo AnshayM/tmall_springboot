@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import pers.anshay.tmall.util.ConstantKey;
 
 import javax.persistence.*;
 
@@ -58,7 +59,8 @@ public class User {
         this.salt = salt;
     }
 
-    /**设置匿名
+    /**
+     * 设置匿名
      *
      * @return
      */
@@ -69,7 +71,7 @@ public class User {
             anonymousName = null;
         } else if (name.length() <= 1) {
             anonymousName = "*";
-        } else if (name.length() == 2) {
+        } else if (name.length() == ConstantKey.ANONYMOUS_NAME_LENGTH_TWO) {
             anonymousName = name.substring(0, 1) + "*";
         } else {
             char[] chars = name.toCharArray();

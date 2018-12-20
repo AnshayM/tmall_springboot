@@ -34,7 +34,7 @@ public class Product {
     private Date createDate;
 
     @Transient
-    private ProductImage firstPrductImage;
+    private ProductImage firstProductImage;
 
     public Integer getId() {
         return id;
@@ -100,11 +100,11 @@ public class Product {
         this.createDate = createDate;
     }
 
-    public ProductImage getFirstPrductImage() {
-        return firstPrductImage;
+    public ProductImage getFirstProductImage() {
+        return firstProductImage;
     }
 
-    public void setFirstPrductImage(ProductImage firstPrductImage) {
-        this.firstPrductImage = firstPrductImage;
+    public void setFirstProductImage(ProductImage firstProductImage) {
+        this.firstProductImage = firstProductImage;
     }
 }

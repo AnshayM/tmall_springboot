@@ -24,7 +24,6 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "uid")
-
     private User user;
 
     private String orderCode;
