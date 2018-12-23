@@ -33,4 +33,9 @@ public class ConstantKey {
     public static final String WAIT_REVIEW = "waitReview";
     public static final String FINISH = "finish";
     public static final String DELETE = "delete";
+
+    /**
+     * 首页产品列表每行条数
+     */
+    public static final Integer PRODUCT_NUMBER_EACH_ROW = 8;
 }

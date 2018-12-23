@@ -10,8 +10,13 @@ import pers.anshay.tmall.dao.CategoryDao;
 import pers.anshay.tmall.dao.ProductDao;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.pojo.Product;
+import pers.anshay.tmall.service.IProductImageService;
 import pers.anshay.tmall.service.IProductService;
+import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ProductServiceImpl
@@ -26,6 +31,8 @@ public class ProductServiceImpl implements IProductService {
     CategoryDao categoryDao;
     @Autowired
     ProductDao productDao;
+    @Autowired
+    IProductImageService productImageService;
 
     @Override
     public Product add(Product product) {
@@ -56,4 +63,37 @@ public class ProductServiceImpl implements IProductService {
 
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
+
+    @Override
+    public void fill(Category category) {
+        List<Product> products = listByCategory(category);
+        productImageService.setFirstProductImages(products);
+        category.setProducts(products);
+    }
+
+    @Override
+    public void fill(List<Category> categories) {
+        for (Category category : categories) {
+            fill(category);
+        }
+    }
+
+    @Override
+    public void fillByRow(List<Category> categories) {
+        for (Category category : categories) {
+            List<Product> products = category.getProducts();
+            List<List<Product>> productsByRow = new ArrayList<>();
+            for (int i = 0; i < products.size(); i += ConstantKey.PRODUCT_NUMBER_EACH_ROW) {
+                int size = i + ConstantKey.PRODUCT_NUMBER_EACH_ROW;
+                List<Product> productsOfEachRow = products.subList(i, size);
+                productsByRow.add(productsOfEachRow);
+            }
+        }
+    }
+
+    @Override
+    public List<Product> listByCategory(Category category) {
+        return productDao.findByCategoryOrderById(category);
+    }
+
 }

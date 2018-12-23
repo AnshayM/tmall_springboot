@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.dao.CategoryDao;
 import pers.anshay.tmall.pojo.Category;
+import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.util.ImageUtil;
 import pers.anshay.tmall.util.Page4Navigator;
@@ -75,6 +76,29 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public void update(Category category) {
         categoryDao.save(category);
+    }
+
+    @Override
+    public void removeCategoryFromProduct(List<Category> categories) {
+        for (Category category : categories) {
+            removeCategoryFromProduct(category);
+        }
+    }
+
+    @Override
+    public void removeCategoryFromProduct(Category category) {
+        List<Product> products = category.getProducts();
+        if (null != products) {
+            for (Product product : products) {
+                product.setCategory(null);
+            }
+        }
+        List<List<Product>> productsByRow = category.getProductsByRow();
+        if (null != productsByRow) {
+            for (Product product : products) {
+                product.setCategory(null);
+            }
+        }
     }
 
 }

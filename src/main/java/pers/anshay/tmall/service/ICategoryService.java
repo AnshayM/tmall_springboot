@@ -2,6 +2,7 @@ package pers.anshay.tmall.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.pojo.Category;
+import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.util.Page4Navigator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,4 +72,19 @@ public interface ICategoryService {
      * @return TmResult
      */
     void update(Category category);
+
+    /**
+     * 前台遍历显示时移除产品Category属性
+     *
+     * @param categories categories
+     */
+    void removeCategoryFromProduct(List<Category> categories);
+
+    /**
+     * 前台遍历显示时移除产品Category属性
+     *
+     * @param category category
+     */
+    void removeCategoryFromProduct(Category category);
+
 }

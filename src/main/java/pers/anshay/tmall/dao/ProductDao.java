@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.pojo.Product;
 
+import java.util.List;
+
 /**
  * ProductDao
  *
@@ -21,4 +23,12 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
      * @return Page
      */
     Page<Product> findByCategory(Category category, Pageable pageable);
+
+    /**
+     * 分页查询分类下的产品
+     *
+     * @param category
+     * @return List<Product>
+     */
+    List<Product> findByCategoryOrderById(Category category);
 }
