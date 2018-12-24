@@ -29,4 +29,20 @@ public class UserServiceImpl implements IUserService {
         Page pageFromJPA = userDao.findAll(pageable);
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
+
+    @Override
+    public boolean isExist(String name) {
+        User user = getByName(name);
+        return null != user;
+    }
+
+    @Override
+    public User getByName(String name) {
+        return userDao.findByName(name);
+    }
+
+    @Override
+    public void add(User user) {
+        userDao.save(user);
+    }
 }
