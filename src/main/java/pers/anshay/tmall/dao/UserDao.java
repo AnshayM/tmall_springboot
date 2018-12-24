@@ -10,5 +10,12 @@ import pers.anshay.tmall.pojo.User;
  * @date: 2018/12/15
  */
 public interface UserDao extends JpaRepository<User, Integer> {
+    /**
+     * findByName
+     *
+     * @param name name
+     * @return User
+     */
+    User findByName(String name);
 
 }
