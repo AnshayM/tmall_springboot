@@ -8,7 +8,7 @@
 
     <span th:if="${null!=session.user}">
 		<a th:text="${session.user.name}"></a>
-		<a href="forelogout" >退出</a>
+		<a href="foreLogout">退出</a>
 	</span>
 
     <span th:if="${null==session.user}">

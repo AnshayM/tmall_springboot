@@ -40,6 +40,12 @@ public class ForeController {
         return categories;
     }
 
+    /**
+     * 注册
+     *
+     * @param user user
+     * @return Result
+     */
     @PostMapping("/foreRegister")
     public Result register(@RequestBody User user) {
         String name = HtmlUtils.htmlEscape(user.getName());
@@ -54,6 +60,13 @@ public class ForeController {
         return Result.success();
     }
 
+    /**
+     * 登录
+     *
+     * @param userParam userParam
+     * @param session   session
+     * @return Result
+     */
     @PostMapping("/foreLogin")
     public Result login(@RequestBody User userParam, HttpSession session) {
         String name = HtmlUtils.htmlEscape(userParam.getName());
@@ -64,5 +77,17 @@ public class ForeController {
             session.setAttribute("user", user);
             return Result.success();
         }
+    }
+
+    /**
+     * 登出，跳转到home页面
+     *
+     * @param session session
+     * @return String
+     */
+    @GetMapping("/foreLogout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:home";
     }
 }
