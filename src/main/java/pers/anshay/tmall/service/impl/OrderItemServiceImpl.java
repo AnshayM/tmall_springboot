@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.OrderItemDao;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
+import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IProductImageService;
 
@@ -46,8 +47,48 @@ public class OrderItemServiceImpl implements IOrderItemService {
     }
 
     @Override
+    public void update(OrderItem orderItem) {
+        orderItemDao.save(orderItem);
+    }
+
+    @Override
+    public void add(OrderItem orderItem) {
+        orderItemDao.save(orderItem);
+    }
+
+    @Override
+    public OrderItem get(Integer id) {
+        return orderItemDao.findOne(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        orderItemDao.delete(id);
+    }
+
+    @Override
+    public Integer getSaleCount(Product product) {
+        List<OrderItem> orderItems = listByProduct(product);
+        int result = 0;
+        // 这里可以考虑使用sql查询来做
+        for (OrderItem orderItem : orderItems) {
+            if (null != orderItem.getOrder()) {
+                if (null != orderItem.getOrder().getPayDate()) {
+                    result += orderItem.getNumber();
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
     public List<OrderItem> listByOrder(Order order) {
         return orderItemDao.findByOrderOrderByIdDesc(order);
+    }
+
+    @Override
+    public List<OrderItem> listByProduct(Product product) {
+        return orderItemDao.findByProduct(product);
     }
 
 }

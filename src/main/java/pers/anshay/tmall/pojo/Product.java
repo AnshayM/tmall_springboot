@@ -5,6 +5,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 产品
@@ -32,6 +33,17 @@ public class Product {
     private float promotePrice;
     private int stock;
     private Date createDate;
+
+    @Transient
+    private ProductImage productImage;
+    @Transient
+    private List<ProductImage> productSingleImages;
+    @Transient
+    private List<ProductImage> productDetailImages;
+    @Transient
+    private int reviewCount;
+    @Transient
+    private int saleCount;
 
     @Transient
     private ProductImage firstProductImage;
@@ -106,5 +118,65 @@ public class Product {
 
     public void setFirstProductImage(ProductImage firstProductImage) {
         this.firstProductImage = firstProductImage;
+    }
+
+    public ProductImage getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(ProductImage productImage) {
+        this.productImage = productImage;
+    }
+
+    public List<ProductImage> getProductSingleImages() {
+        return productSingleImages;
+    }
+
+    public void setProductSingleImages(List<ProductImage> productSingleImages) {
+        this.productSingleImages = productSingleImages;
+    }
+
+    public List<ProductImage> getProductDetailImages() {
+        return productDetailImages;
+    }
+
+    public void setProductDetailImages(List<ProductImage> productDetailImages) {
+        this.productDetailImages = productDetailImages;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public int getSaleCount() {
+        return saleCount;
+    }
+
+    public void setSaleCount(int saleCount) {
+        this.saleCount = saleCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", category=" + category +
+                ", name='" + name + '\'' +
+                ", subTitle='" + subTitle + '\'' +
+                ", originalPrice=" + originalPrice +
+                ", promotePrice=" + promotePrice +
+                ", stock=" + stock +
+                ", createDate=" + createDate +
+                ", productImage=" + productImage +
+                ", productSingleImages=" + productSingleImages +
+                ", productDetailImages=" + productDetailImages +
+                ", reviewCount=" + reviewCount +
+                ", saleCount=" + saleCount +
+                ", firstProductImage=" + firstProductImage +
+                '}';
     }
 }

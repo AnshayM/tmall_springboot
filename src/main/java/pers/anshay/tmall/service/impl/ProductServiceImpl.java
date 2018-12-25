@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.CategoryDao;
 import pers.anshay.tmall.dao.ProductDao;
 import pers.anshay.tmall.pojo.Category;
+import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
+import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IProductImageService;
 import pers.anshay.tmall.service.IProductService;
+import pers.anshay.tmall.service.IReviewService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
 
@@ -33,6 +36,10 @@ public class ProductServiceImpl implements IProductService {
     ProductDao productDao;
     @Autowired
     IProductImageService productImageService;
+    @Autowired
+    IOrderItemService orderItemService;
+    @Autowired
+    IReviewService reviewService;
 
     @Override
     public Product add(Product product) {
@@ -96,6 +103,19 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> listByCategory(Category category) {
         return productDao.findByCategoryOrderById(category);
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(Product product) {
+        product.setSaleCount(orderItemService.getSaleCount(product));
+        product.setReviewCount(reviewService.getCount(product));
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(List<Product> products) {
+        for (Product product : products) {
+            setSaleAndReviewNumber(product);
+        }
     }
 
 }

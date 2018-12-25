@@ -3,6 +3,7 @@ package pers.anshay.tmall.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
+import pers.anshay.tmall.pojo.Product;
 
 import java.util.List;
 
@@ -20,5 +21,13 @@ public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
      * @return List<OrderItem>
      */
     List<OrderItem> findByOrderOrderByIdDesc(Order order);
+
+    /**
+     * 根据产品获取OrderItem
+     *
+     * @param product product
+     * @return List<OrderItem>
+     */
+    List<OrderItem> findByProduct(Product product);
 
 }

@@ -84,4 +84,18 @@ public interface IProductService {
      * @return List<Product>
      */
     List<Product> listByCategory(Category category);
+
+    /**
+     * 为产品设置销量和评价数量
+     *
+     * @param product product
+     */
+    void setSaleAndReviewNumber(Product product);
+
+    /**
+     * 为产品设置销量和评价数量
+     *
+     * @param products products
+     */
+    void setSaleAndReviewNumber(List<Product> products);
 }
