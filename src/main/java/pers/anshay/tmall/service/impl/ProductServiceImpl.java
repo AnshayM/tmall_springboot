@@ -85,9 +85,11 @@ public class ProductServiceImpl implements IProductService {
             List<List<Product>> productsByRow = new ArrayList<>();
             for (int i = 0; i < products.size(); i += ConstantKey.PRODUCT_NUMBER_EACH_ROW) {
                 int size = i + ConstantKey.PRODUCT_NUMBER_EACH_ROW;
+                size = size > products.size() ? products.size() : size;
                 List<Product> productsOfEachRow = products.subList(i, size);
                 productsByRow.add(productsOfEachRow);
             }
+            category.setProductsByRow(productsByRow);
         }
     }
 

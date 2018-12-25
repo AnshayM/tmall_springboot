@@ -45,4 +45,9 @@ public class UserServiceImpl implements IUserService {
     public void add(User user) {
         userDao.save(user);
     }
+
+    @Override
+    public User get(String name, String password) {
+        return userDao.getByNameAndPassword(name,password  );
+    }
 }

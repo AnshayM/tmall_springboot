@@ -43,4 +43,13 @@ public interface IUserService {
      * @param user user
      */
     void add(User user);
+
+    /**
+     * 通过账号和密码查询账户
+     *
+     * @param name     name
+     * @param password password
+     * @return User
+     */
+    User get(String name, String password);
 }
