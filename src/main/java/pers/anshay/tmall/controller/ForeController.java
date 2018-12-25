@@ -78,16 +78,4 @@ public class ForeController {
             return Result.success();
         }
     }
-
-    /**
-     * 登出，跳转到home页面
-     *
-     * @param session session
-     * @return String
-     */
-    @GetMapping("/foreLogout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("user");
-        return "redirect:home";
-    }
 }

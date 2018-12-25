@@ -2,8 +2,8 @@ package pers.anshay.tmall.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 前台页面跳转处理器
@@ -93,8 +93,9 @@ public class ForePageController {
         return "fore/search";
     }
 
-    @GetMapping("/forelogout")
-    public String logout() {
+    @GetMapping("/foreLogout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
         return "redirect:home";
     }
 
