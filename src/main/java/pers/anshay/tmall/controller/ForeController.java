@@ -13,6 +13,7 @@ import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.service.IUserService;
 import pers.anshay.tmall.util.Result;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -40,22 +41,28 @@ public class ForeController {
     }
 
     @PostMapping("/foreRegister")
-    public Object register(@RequestBody User user) {
-        String name =  user.getName();
+    public Result register(@RequestBody User user) {
+        String name = HtmlUtils.htmlEscape(user.getName());
         String password = user.getPassword();
-        name = HtmlUtils.htmlEscape(name);
         user.setName(name);
-        boolean exist = userService.isExist(name);
-
-        if(exist){
-            String message ="用户名已经被使用,不能使用";
+        if (userService.isExist(name)) {
+            String message = "用户名已经被使用,不能使用";
             return Result.fail(message);
         }
-
         user.setPassword(password);
-
         userService.add(user);
-
         return Result.success();
+    }
+
+    @PostMapping("/foreLogin")
+    public Result login(@RequestBody User userParam, HttpSession session) {
+        String name = HtmlUtils.htmlEscape(userParam.getName());
+        User user = userService.get(name, userParam.getPassword());
+        if (user == null) {
+            return Result.fail("账号密码错误");
+        } else {
+            session.setAttribute("user", user);
+            return Result.success();
+        }
     }
 }
