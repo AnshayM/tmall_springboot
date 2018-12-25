@@ -7,10 +7,9 @@
     <span>喵，欢迎来天猫</span>
 
     <span th:if="${null!=session.user}">
-		<a href="login" th:text="${session.user.name}"></a>
+		<a th:text="${session.user.name}"></a>
 		<a href="forelogout" >退出</a>
 	</span>
-
 
     <span th:if="${null==session.user}">
 		<a href="login">请登录</a>
