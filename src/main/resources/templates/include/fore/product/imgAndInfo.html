@@ -2,9 +2,9 @@
 
     <script>
         function imgAndInfoPageRegisterListeners(vue){
-            var stock = vue.p.stock;
+            let stock = vue.p.stock;
             $(".productNumberSetting").keyup(function(){
-                var num= $(".productNumberSetting").val();
+                let num= $(".productNumberSetting").val();
                 num = parseInt(num);
                 if(isNaN(num))
                     num= 1;
@@ -16,14 +16,14 @@
             });
 
             $(".increaseNumber").click(function(){
-                var num= $(".productNumberSetting").val();
+                let num= $(".productNumberSetting").val();
                 num++;
                 if(num>stock)
                     num = stock;
                 $(".productNumberSetting").val(num);
             });
             $(".decreaseNumber").click(function(){
-                var num= $(".productNumberSetting").val();
+                let num= $(".productNumberSetting").val();
                 --num;
                 if(num<=0)
                     num=1;
@@ -32,14 +32,14 @@
 
             $(".addCartButton").removeAttr("disabled");
             $(".addCartLink").click(function(){
-                var url = "forecheckLogin";
+                let url = "forecheckLogin";
                 axios.get(url).then(function(response) {
                     if(0==response.data.code){
-                        var pid = vue.p.id;
-                        var num= $(".productNumberSetting").val();
-                        var url =  "foreaddCart?pid="+pid+"&num="+num;
+                        let pid = vue.p.id;
+                        let num= $(".productNumberSetting").val();
+                        let url =  "foreaddCart?pid="+pid+"&num="+num;
                         axios.get(url).then(function(response) {
-                            var result = response.data;
+                            let result = response.data;
                             if(0==result.code){
                                 $(".addCartButton").html("已加入购物车");
                                 $(".addCartButton").attr("disabled","disabled");
@@ -55,14 +55,14 @@
                 });
             });
             $(".buyLink").click(function(){
-                var url = "forecheckLogin";
+                let url = "foreCheckLogin";
                 axios.get(url).then(function(response) {
                     if(0==response.data.code){
-                        var pid = vue.p.id;
-                        var num= $(".productNumberSetting").val();
-                        var url =  "forebuyone?pid="+pid+"&num="+num;
+                        let pid = vue.p.id;
+                        let num= $(".productNumberSetting").val();
+                        let url =  "forebuyone?pid="+pid+"&num="+num;
                         axios.get(url).then(function(response) {
-                            var oiid = response.data;
+                            let oiid = response.data;
                             location.href="buy?oiid="+oiid;
                         });
                     }
@@ -74,7 +74,7 @@
             });
 
             $("button.loginSubmitButton").click(function(){
-                var url =  "forelogin";
+                let url =  "foreLogin";
                 if(0==vue.user.name.length){
                     $("span.errorMessage").html("请输入用户名");
                     $("div.loginErrorMessageDiv").css("visibility","visible");
@@ -87,7 +87,7 @@
                 }
 
                 axios.post(url,vue.user).then(function(response) {
-                    var result = response.data;
+                    let result = response.data;
                     if(result.code==0){
                         location.href="product?pid="+vue.p.id;
                     }
@@ -99,14 +99,14 @@
             });
 
             $("img.smallImage").mouseenter(function(){
-                var bigImageURL = $(this).attr("bigImageURL");
+                let bigImageURL = $(this).attr("bigImageURL");
                 $("img.bigImg").attr("src",bigImageURL);
             });
 
             $("img.bigImg").load(
                 function(){
                     $("img.smallImage").each(function(){
-                        var bigImageURL = $(this).attr("bigImageURL");
+                        let bigImageURL = $(this).attr("bigImageURL");
                         img = new Image();
                         img.src = bigImageURL;
 

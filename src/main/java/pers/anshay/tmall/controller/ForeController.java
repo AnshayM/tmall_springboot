@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ForeRESTController
+ * 前台请求处理器
  *
  * @author: Anshay
  * @date: 2018/12/20
@@ -101,6 +101,15 @@ public class ForeController {
         map.put("pvs", propertyValues);
         map.put("reviews", reviews);
         return Result.success(map);
+    }
+
+    @GetMapping("/foreCheckLogin")
+    public Result checkLogin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            return Result.success();
+        }
+        return Result.fail("未登录");
     }
 
 }
