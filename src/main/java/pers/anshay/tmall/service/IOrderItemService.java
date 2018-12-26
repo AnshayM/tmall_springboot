@@ -2,6 +2,7 @@ package pers.anshay.tmall.service;
 
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
+import pers.anshay.tmall.pojo.Product;
 
 import java.util.List;
 
@@ -28,10 +29,56 @@ public interface IOrderItemService {
     void fill(Order order);
 
     /**
-     * 查询ordere下的所有产品
+     * update
+     *
+     * @param orderItem orderItem
+     */
+    void update(OrderItem orderItem);
+
+    /**
+     * add
+     *
+     * @param orderItem orderItem
+     */
+    void add(OrderItem orderItem);
+
+    /**
+     * 通过id查询OrderItem
+     *
+     * @param id id
+     * @return OrderItem
+     */
+    OrderItem get(Integer id);
+
+    /**
+     * delete
+     *
+     * @param id id
+     */
+    void delete(Integer id);
+
+    /**
+     * 获取产品销售量
+     *
+     * @param product product
+     * @return Integer
+     */
+    Integer getSaleCount(Product product);
+
+    /**
+     * 查询order下的所有产品
      *
      * @param order order
      * @return List<OrderItem>
      */
     List<OrderItem> listByOrder(Order order);
+
+    /**
+     * listByProduct
+     *
+     * @param product product
+     * @return List<OrderItem>
+     */
+    List<OrderItem> listByProduct(Product product);
+
 }
