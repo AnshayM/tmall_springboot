@@ -1,17 +1,17 @@
 package pers.anshay.tmall.controller;
 
+import org.hsqldb.lib.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
+import pers.anshay.tmall.comparator.*;
 import pers.anshay.tmall.pojo.*;
 import pers.anshay.tmall.service.*;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 前台请求处理器
@@ -110,6 +110,36 @@ public class ForeController {
             return Result.success();
         }
         return Result.fail("未登录");
+    }
+
+    @GetMapping("foreCategory/{cid}")
+    private Object category(@PathVariable Integer cid, String sort) {
+        Category category = categoryService.get(cid);
+        productService.fill(category);
+        productService.setSaleAndReviewNumber(category.getProducts());
+        categoryService.removeCategoryFromProduct(category);
+
+        if (!StringUtil.isEmpty(sort)) {
+            switch (sort) {
+                case "review":
+                    Collections.sort(category.getProducts(), new ProductReviewComparator());
+                    break;
+                case "date":
+                    Collections.sort(category.getProducts(), new ProductDateComparator());
+                    break;
+                case "saleCount":
+                    Collections.sort(category.getProducts(), new ProductSaleCountComparator());
+                    break;
+                case "price":
+                    Collections.sort(category.getProducts(), new ProductPriceComparator());
+                    break;
+                case "all":
+                default:
+                    Collections.sort(category.getProducts(), new ProductAllComparator());
+                    break;
+            }
+        }
+        return category;
     }
 
 }
