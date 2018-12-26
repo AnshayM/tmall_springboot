@@ -100,7 +100,7 @@ public class ForeController {
         map.put("product", product);
         map.put("pvs", propertyValues);
         map.put("reviews", reviews);
-        return Result.success();
+        return Result.success(map);
     }
 
 }
