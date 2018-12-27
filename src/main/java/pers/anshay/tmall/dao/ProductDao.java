@@ -18,8 +18,8 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
     /**
      * 分页查询分类下的产品
      *
-     * @param category
-     * @param pageable
+     * @param category category
+     * @param pageable pageable
      * @return Page
      */
     Page<Product> findByCategory(Category category, Pageable pageable);
@@ -27,8 +27,17 @@ public interface ProductDao extends JpaRepository<Product, Integer> {
     /**
      * 分页查询分类下的产品
      *
-     * @param category
+     * @param category category
      * @return List<Product>
      */
     List<Product> findByCategoryOrderById(Category category);
+
+    /**
+     * 根据关键字模糊搜索
+     *
+     * @param keyword  关键字
+     * @param pageable 分页
+     * @return List<Product>
+     */
+    List<Product> findByNameLike(String keyword, Pageable pageable);
 }

@@ -34,8 +34,13 @@ public class ForeController {
     @Autowired
     IReviewService reviewService;
 
+    /**
+     * 首页
+     *
+     * @return List<Category>
+     */
     @GetMapping("/foreHome")
-    public Object home() {
+    public List<Category> home() {
         List<Category> categories = categoryService.list();
         productService.fill(categories);
         productService.fillByRow(categories);
@@ -82,6 +87,12 @@ public class ForeController {
         }
     }
 
+    /**
+     * 产品页
+     *
+     * @param pid pid
+     * @return Result
+     */
     @GetMapping("/foreProduct/{pid}")
     public Result product(@PathVariable("pid") Integer pid) {
         Product product = productService.get(pid);
@@ -96,7 +107,7 @@ public class ForeController {
         productService.setSaleAndReviewNumber(product);
         productImageService.setFirstProductImage(product);
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(3);
         map.put("product", product);
         map.put("pvs", propertyValues);
         map.put("reviews", reviews);
@@ -140,6 +151,25 @@ public class ForeController {
             }
         }
         return category;
+    }
+
+    /**
+     * 产品模糊搜索
+     *
+     * @param keyword keyword
+     * @param start   start
+     * @param size    size
+     * @return List<Product>
+     */
+    @PostMapping("/foreSearch")
+    public List<Product> search(String keyword, Integer start, Integer size) {
+        start = start == null ? 0 : start;
+        size = size == null ? 20 : size;
+        keyword = keyword == null ? "" : keyword;
+        List<Product> products = productService.search(keyword, start, size);
+        productImageService.setFirstProductImages(products);
+        productService.setSaleAndReviewNumber(products);
+        return products;
     }
 
 }

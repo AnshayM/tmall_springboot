@@ -52,7 +52,6 @@ public interface IProductService {
      * @param navigatePages navigatePages
      * @return Page4Navigator
      */
-
     Page4Navigator<Product> list(Integer cid, Integer start, Integer size, Integer navigatePages);
 
     /**
@@ -98,4 +97,14 @@ public interface IProductService {
      * @param products products
      */
     void setSaleAndReviewNumber(List<Product> products);
+
+    /**
+     * 模糊搜索
+     *
+     * @param keyword keyword
+     * @param start   start
+     * @param size    size
+     * @return List<Product>
+     */
+    List<Product> search(String keyword, Integer start, Integer size);
 }

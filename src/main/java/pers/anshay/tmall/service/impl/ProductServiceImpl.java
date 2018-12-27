@@ -118,4 +118,11 @@ public class ProductServiceImpl implements IProductService {
         }
     }
 
+    @Override
+    public List<Product> search(String keyword, Integer start, Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(start, size, sort);
+        return productDao.findByNameLike("%" + keyword + "%", pageable);
+    }
+
 }
