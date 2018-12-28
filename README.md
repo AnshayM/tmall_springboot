@@ -17,4 +17,5 @@
 
 开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是一个人开发的，但是保持一个好习惯也是必要的。
 
-项目中的图片资源链接：https://pan.baidu.com/s/1VtjKkjXAxAp54S0qZpTTuw 提取码：o6k3 
+[项目中的图片资源链接](https://pan.baidu.com/s/1VtjKkjXAxAp54S0qZpTTuw) 
+提取码：*o6k3*
