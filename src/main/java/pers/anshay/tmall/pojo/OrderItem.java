@@ -31,13 +31,13 @@ public class OrderItem {
     @JoinColumn(name = "uid")
     private User user;
 
-    private Integer number;
+    private int number;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -65,11 +65,11 @@ public class OrderItem {
         this.user = user;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 }

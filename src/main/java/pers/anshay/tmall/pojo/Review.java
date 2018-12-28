@@ -31,11 +31,11 @@ public class Review {
     private String content;
     private Date createDate;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
