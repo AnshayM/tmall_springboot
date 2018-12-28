@@ -3,6 +3,7 @@ package pers.anshay.tmall.service;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
+import pers.anshay.tmall.pojo.User;
 
 import java.util.List;
 
@@ -81,4 +82,11 @@ public interface IOrderItemService {
      */
     List<OrderItem> listByProduct(Product product);
 
+    /**
+     * 根据用户查询订单项
+     *
+     * @param user user
+     * @return List<OrderItem>
+     */
+    List<OrderItem> listByUser(User user);
 }

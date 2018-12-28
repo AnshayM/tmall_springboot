@@ -11,7 +11,10 @@ import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 前台请求处理器
@@ -33,6 +36,8 @@ public class ForeController {
     IPropertyValueService propertyValueService;
     @Autowired
     IReviewService reviewService;
+    @Autowired
+    IOrderItemService orderItemService;
 
     /**
      * 首页
@@ -170,6 +175,41 @@ public class ForeController {
         productImageService.setFirstProductImages(products);
         productService.setSaleAndReviewNumber(products);
         return products;
+    }
+
+    /**
+     * 点击立即购买后进行的订单操作
+     *
+     * @param pid     产品id
+     * @param num     数量
+     * @param session session
+     * @return 订单项id
+     */
+    @GetMapping("/foreBuyOne")
+    public int buyOne(Integer pid, Integer num, HttpSession session) {
+        Product product = productService.get(pid);
+        int orderItemId = 0;
+
+        User user = (User) session.getAttribute("user");
+        boolean found = false;
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getProduct().getId() == product.getId()) {
+                orderItem.setNumber(orderItem.getNumber() + num);
+                orderItemService.update(orderItem);
+                found = true;
+                orderItemId = orderItem.getId();
+                break;
+            }
+        }
+        if (!found) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setUser(user);
+            orderItem.setNumber(num);
+            orderItemService.add(orderItem);
+            orderItemId = orderItem.getId();
+        }
+        return orderItemId;
     }
 
 }

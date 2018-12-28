@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
+import pers.anshay.tmall.pojo.User;
 
 import java.util.List;
 
@@ -29,5 +30,13 @@ public interface OrderItemDao extends JpaRepository<OrderItem, Integer> {
      * @return List<OrderItem>
      */
     List<OrderItem> findByProduct(Product product);
+
+    /**
+     * 根据用户查询未生成订单的订单项集合
+     *
+     * @param user 用户
+     * @return List<OrderItem>
+     */
+    List<OrderItem> findByUserAndOrderIsNull(User user);
 
 }

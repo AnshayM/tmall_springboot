@@ -6,6 +6,7 @@ import pers.anshay.tmall.dao.OrderItemDao;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
+import pers.anshay.tmall.pojo.User;
 import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IProductImageService;
 
@@ -89,6 +90,11 @@ public class OrderItemServiceImpl implements IOrderItemService {
     @Override
     public List<OrderItem> listByProduct(Product product) {
         return orderItemDao.findByProduct(product);
+    }
+
+    @Override
+    public List<OrderItem> listByUser(User user) {
+        return orderItemDao.findByUserAndOrderIsNull(user);
     }
 
 }
