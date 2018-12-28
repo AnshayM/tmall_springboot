@@ -1,5 +1,6 @@
 package pers.anshay.tmall.service;
 
+import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.ProductImage;
 
@@ -58,9 +59,16 @@ public interface IProductImageService {
     void setFirstProductImage(Product product);
 
     /**
-     * 初始化时批量设置首图
+     * 初始化时批量设置首图（如果产品为设置首图，订单管理查阅图片时会出错，后期加一个判断，如果为null，就指配默认图片）
      *
      * @param products product集合
      */
     void setFirstProductImages(List<Product> products);
+
+    /**
+     * 为订单项里每个产品设置首图（防止加载出错）
+     *
+     * @param orderItems 订单项集合
+     */
+    void serFirstProductImagesOnOrderItems(List<OrderItem> orderItems);
 }

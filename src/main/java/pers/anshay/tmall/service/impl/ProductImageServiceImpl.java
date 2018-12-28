@@ -3,6 +3,7 @@ package pers.anshay.tmall.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.ProductImageDao;
+import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.ProductImage;
 import pers.anshay.tmall.service.IProductImageService;
@@ -62,6 +63,13 @@ public class ProductImageServiceImpl implements IProductImageService {
     public void setFirstProductImages(List<Product> products) {
         for (Product product : products) {
             setFirstProductImage(product);
+        }
+    }
+
+    @Override
+    public void serFirstProductImagesOnOrderItems(List<OrderItem> orderItems) {
+        for (OrderItem orderItem : orderItems) {
+            setFirstProductImage(orderItem.getProduct());
         }
     }
 

@@ -11,10 +11,7 @@ import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 前台请求处理器
@@ -210,6 +207,35 @@ public class ForeController {
             orderItemId = orderItem.getId();
         }
         return orderItemId;
+    }
+
+    /**
+     * 结算
+     *
+     * @param orderItemIds 订单项id数组
+     * @param session      session
+     * @return 总额和订单集合
+     */
+    @GetMapping("foreBuy")
+    public Result buy(String[] orderItemIds, HttpSession session) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        float total = 0;
+
+        for (String strId : orderItemIds) {
+            int id = Integer.valueOf(strId);
+            OrderItem orderItem = orderItemService.get(id);
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+            orderItems.add(orderItem);
+        }
+
+        productImageService.serFirstProductImagesOnOrderItems(orderItems);
+        session.setAttribute("ois", orderItems);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderItems", orderItems);
+        map.put("total", total);
+
+        return Result.success(map);
     }
 
 }
