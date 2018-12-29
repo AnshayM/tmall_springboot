@@ -263,4 +263,17 @@ public class ForeController {
         return Result.success();
     }
 
+    /**
+     * 查看购物车
+     *
+     * @param session session
+     * @return List<OrderItem>
+     */
+    @GetMapping("foreCart")
+    public List<OrderItem> cart(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        return orderItems;
+    }
+
 }
