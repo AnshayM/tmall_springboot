@@ -184,9 +184,20 @@ public class ForeController {
      */
     @GetMapping("/foreBuyOne")
     public int buyOne(Integer pid, Integer num, HttpSession session) {
+        return buyOneAndAddCart(pid, num, session);
+    }
+
+    /**
+     * 添加订单
+     *
+     * @param pid     产品id
+     * @param num     数量
+     * @param session session
+     * @return 订单项id
+     */
+    private int buyOneAndAddCart(int pid, int num, HttpSession session) {
         Product product = productService.get(pid);
         int orderItemId = 0;
-
         User user = (User) session.getAttribute("user");
         boolean found = false;
         List<OrderItem> orderItems = orderItemService.listByUser(user);
@@ -236,6 +247,20 @@ public class ForeController {
         map.put("total", total);
 
         return Result.success(map);
+    }
+
+    /**
+     * 添加到购物车
+     *
+     * @param pid     产品id
+     * @param num     数量
+     * @param session session
+     * @return
+     */
+    @GetMapping("foreAddCart")
+    public Result addCart(Integer pid, Integer num, HttpSession session) {
+        buyOneAndAddCart(pid, num, session);
+        return Result.success();
     }
 
 }

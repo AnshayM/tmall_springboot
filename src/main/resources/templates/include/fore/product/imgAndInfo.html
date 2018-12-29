@@ -32,12 +32,12 @@
 
             $(".addCartButton").removeAttr("disabled");
             $(".addCartLink").click(function(){
-                let url = "forecheckLogin";
+                let url = "foreCheckLogin";
                 axios.get(url).then(function(response) {
                     if(0==response.data.code){
                         let pid = vue.p.id;
                         let num= $(".productNumberSetting").val();
-                        let url =  "foreaddCart?pid="+pid+"&num="+num;
+                        let url =  "foreAddCart?pid="+pid+"&num="+num;
                         axios.get(url).then(function(response) {
                             let result = response.data;
                             if(0==result.code){
