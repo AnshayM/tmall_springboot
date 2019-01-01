@@ -1,7 +1,7 @@
 package pers.anshay.tmall.util;
 
 /**
- * 自定义返回对象封装类
+ * 自定义返回对象封装类(等项目结束了，就全部使用Result代替，现在改太麻烦了。考虑所有操作都用Result封装类包裹)
  *
  * @author: Anshay
  * @date: 2018/12/3
