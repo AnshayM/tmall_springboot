@@ -242,7 +242,7 @@ public class ForeController {
         productImageService.serFirstProductImagesOnOrderItems(orderItems);
         session.setAttribute("ois", orderItems);
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(2);
         map.put("orderItems", orderItems);
         map.put("total", total);
 
@@ -255,7 +255,7 @@ public class ForeController {
      * @param pid     产品id
      * @param num     数量
      * @param session session
-     * @return
+     * @return Result
      */
     @GetMapping("foreAddCart")
     public Result addCart(Integer pid, Integer num, HttpSession session) {
@@ -272,8 +272,7 @@ public class ForeController {
     @GetMapping("foreCart")
     public List<OrderItem> cart(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<OrderItem> orderItems = orderItemService.listByUser(user);
-        return orderItems;
+        return orderItemService.listByUser(user);
     }
 
 }
