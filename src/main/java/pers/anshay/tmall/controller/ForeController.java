@@ -1,5 +1,6 @@
 package pers.anshay.tmall.controller;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.hsqldb.lib.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Result;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -35,6 +37,8 @@ public class ForeController {
     IReviewService reviewService;
     @Autowired
     IOrderItemService orderItemService;
+    @Autowired
+    IOrderService orderService;
 
     /**
      * 首页
@@ -125,7 +129,7 @@ public class ForeController {
         return Result.fail("未登录");
     }
 
-    @GetMapping("foreCategory/{cid}")
+    @GetMapping("/foreCategory/{cid}")
     private Object category(@PathVariable Integer cid, String sort) {
         Category category = categoryService.get(cid);
         productService.fill(category);
@@ -227,7 +231,7 @@ public class ForeController {
      * @param session      session
      * @return 总额和订单集合
      */
-    @GetMapping("foreBuy")
+    @GetMapping("/foreBuy")
     public Result buy(String[] orderItemIds, HttpSession session) {
         List<OrderItem> orderItems = new ArrayList<>();
         float total = 0;
@@ -257,7 +261,7 @@ public class ForeController {
      * @param session session
      * @return Result
      */
-    @GetMapping("foreAddCart")
+    @GetMapping("/foreAddCart")
     public Result addCart(Integer pid, Integer num, HttpSession session) {
         buyOneAndAddCart(pid, num, session);
         return Result.success();
@@ -316,5 +320,49 @@ public class ForeController {
         }
         orderItemService.delete(oiid);
         return Result.success();
+    }
+
+    /**
+     * 提交订单
+     *
+     * @param order   订单
+     * @param session session
+     * @return Result
+     */
+    @PostMapping("/foreCreateOrder")
+    public Result createOder(@RequestBody Order order, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("未登录");
+        }
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+        order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
+        order.setUser(user);
+        order.setStatus(ConstantKey.WAIT_PAY);
+        List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("ois");
+
+        float total = orderService.add(order, orderItems);
+
+        Map map = new HashMap<>(2);
+        map.put("oid", order.getId());
+        map.put("total", total);
+        return Result.success(map);
+    }
+
+    /**
+     * 确认支付
+     * 更新订单状态并返回订单信息
+     *
+     * @param orderId orderId
+     * @return Order
+     */
+    @GetMapping("/forePayed")
+    public Order payed(Integer orderId) {
+        Order order = orderService.get(orderId);
+        order.setStatus(ConstantKey.WAIT_DELIVERY);
+        order.setPayDate(new Date());
+        orderService.update(order);
+        return order;
     }
 }

@@ -24,7 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 需要登录才可以访问的路径
         String[] requireAuthPages = new String[]{
                 "buy",
-                "aliPay",
+                "alipay",
                 "payed",
                 "cart",
                 "bought",

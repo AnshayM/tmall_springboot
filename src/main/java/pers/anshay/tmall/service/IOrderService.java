@@ -1,6 +1,7 @@
 package pers.anshay.tmall.service;
 
 import pers.anshay.tmall.pojo.Order;
+import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.util.Page4Navigator;
 
 import java.util.List;
@@ -51,4 +52,20 @@ public interface IOrderService {
      * @param order order
      */
     void update(Order order);
+
+    /**
+     * 创建订单
+     *
+     * @param order order
+     */
+    void add(Order order);
+
+    /**
+     * 创建订单并计算返回总价
+     *
+     * @param order      order
+     * @param orderItems 订单项
+     * @return 总价
+     */
+    float add(Order order, List<OrderItem> orderItems);
 }
