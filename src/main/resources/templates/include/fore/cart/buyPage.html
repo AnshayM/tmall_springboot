@@ -29,7 +29,7 @@
                         });
                     },
                     submitOrder: function () {
-                        let url = "forecreateOrder";
+                        let url = "foreCreateOrder";
                         axios.post(url, this.order).then(function (response) {
                             let result = response.data;
                             let oid = result.data.oid;

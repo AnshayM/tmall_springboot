@@ -217,6 +217,7 @@ public class ForeController {
         if (!found) {
             OrderItem orderItem = new OrderItem();
             orderItem.setUser(user);
+            orderItem.setProduct(product);
             orderItem.setNumber(num);
             orderItemService.add(orderItem);
             orderItemId = orderItem.getId();
@@ -227,16 +228,16 @@ public class ForeController {
     /**
      * 结算
      *
-     * @param orderItemIds 订单项id数组
-     * @param session      session
+     * @param oiid    订单项id数组
+     * @param session session
      * @return 总额和订单集合
      */
     @GetMapping("/foreBuy")
-    public Result buy(String[] orderItemIds, HttpSession session) {
+    public Result buy(String[] oiid, HttpSession session) {
         List<OrderItem> orderItems = new ArrayList<>();
         float total = 0;
 
-        for (String strId : orderItemIds) {
+        for (String strId : oiid) {
             int id = Integer.valueOf(strId);
             OrderItem orderItem = orderItemService.get(id);
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
@@ -249,7 +250,6 @@ public class ForeController {
         Map<String, Object> map = new HashMap<>(2);
         map.put("orderItems", orderItems);
         map.put("total", total);
-
         return Result.success(map);
     }
 
@@ -273,10 +273,12 @@ public class ForeController {
      * @param session session
      * @return List<OrderItem>
      */
-    @GetMapping("foreCart")
+    @GetMapping("/foreCart")
     public List<OrderItem> cart(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        return orderItemService.listByUser(user);
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        productImageService.serFirstProductImagesOnOrderItems(orderItems);
+        return orderItems;
     }
 
     /**
