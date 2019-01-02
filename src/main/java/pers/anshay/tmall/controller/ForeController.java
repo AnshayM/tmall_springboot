@@ -275,4 +275,46 @@ public class ForeController {
         return orderItemService.listByUser(user);
     }
 
+    /**
+     * 修改订单项
+     *
+     * @param session session
+     * @param pid     产品id
+     * @param num     数量
+     * @return Result
+     */
+    @GetMapping("/foreChangeOrderItem")
+    public Result changeOrderItem(HttpSession session, Integer pid, Integer num) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("未登录");
+        }
+
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getProduct().getId() == pid) {
+                orderItem.setNumber(num);
+                orderItemService.update(orderItem);
+                break;
+            }
+        }
+        return Result.success();
+    }
+
+    /**
+     * 删除订单项
+     *
+     * @param session session
+     * @param oiid    订单项id
+     * @return Result
+     */
+    @GetMapping("/foreDeleteOrderItem")
+    public Result deleteOrderItem(HttpSession session, Integer oiid) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("未登录");
+        }
+        orderItemService.delete(oiid);
+        return Result.success();
+    }
 }
