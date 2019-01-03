@@ -429,4 +429,54 @@ public class ForeController {
         return Result.success();
     }
 
+    /**
+     * 查询评论列表（带重构）
+     *
+     * @param oid orderId
+     * @return Result
+     */
+    @GetMapping("/foreReview")
+    public Result review(Integer oid) {
+        Order order = orderService.get(oid);
+        orderItemService.fill(order);
+        orderService.removeOrderFromOrderItem(order);
+        Product product = order.getOrderItems().get(0).getProduct();
+        List<Review> reviews = reviewService.list(product);
+        Map map = new HashMap(3);
+        map.put("p", product);
+        map.put("o", order);
+        map.put("reviews", reviews);
+
+        return Result.success(map);
+    }
+
+    /**
+     * 提交评价
+     *
+     * @param session session
+     * @param oid     订单id
+     * @param pid     产品id
+     * @param content 评价内容
+     * @return Result
+     */
+    @GetMapping("/foreDoReview")
+    public Result doReview(HttpSession session, Integer oid, Integer pid, String content) {
+        Order order = orderService.get(oid);
+        order.setStatus(ConstantKey.FINISH);
+        orderService.update(order);
+
+        Product product = productService.get(pid);
+        content = HtmlUtils.htmlEscape(content);
+
+        User user = (User) session.getAttribute("user");
+        Review review = new Review();
+        review.setContent(content);
+        review.setProduct(product);
+        review.setCreateDate(new Date());
+        review.setUser(user);
+        reviewService.add(review);
+
+        return Result.success();
+    }
+
 }
