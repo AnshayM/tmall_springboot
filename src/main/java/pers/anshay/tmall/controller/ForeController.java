@@ -384,4 +384,49 @@ public class ForeController {
         orderService.removeOrderFromOrderItem(orders);
         return Result.success(orders);
     }
+
+    /**
+     * 确认收货（待重构）
+     *
+     * @param oid orderId
+     * @return Result
+     */
+    @GetMapping("/foreConfirmPay")
+    public Result confirmPay(Integer oid) {
+        Order order = orderService.get(oid);
+        orderItemService.fill(order);
+        orderService.calcTotal(order);
+        orderService.removeOrderFromOrderItem(order);
+        return Result.success(order);
+    }
+
+    /**
+     * 确认收货成功
+     *
+     * @param oid orderId
+     * @return Result
+     */
+    @GetMapping("/foreOrderConfirmed")
+    public Result orderConfirmed(Integer oid) {
+        Order order = orderService.get(oid);
+        order.setStatus(ConstantKey.WAIT_REVIEW);
+        order.setConfirmDate(new Date());
+        orderService.update(order);
+        return Result.success();
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param oid orderId
+     * @return Result
+     */
+    @PutMapping("/foreDeleteOrder")
+    public Result deleteOrder(Integer oid) {
+        Order order = orderService.get(oid);
+        order.setStatus(ConstantKey.DELETE);
+        orderService.update(order);
+        return Result.success();
+    }
+
 }

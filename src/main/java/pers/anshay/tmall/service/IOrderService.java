@@ -33,7 +33,7 @@ public interface IOrderService {
     void removeOrderFromOrderItem(List<Order> orders);
 
     /**
-     * 订单里的订单项的订单属性设置为空
+     * 订单里的订单项的订单属性设置为空，否则会无穷尽的查询
      *
      * @param order order
      */
@@ -77,4 +77,11 @@ public interface IOrderService {
      * @return List<Order>
      */
     List<Order> listByUserWithoutDelete(User user);
+
+    /**
+     * 计算设置订单总额
+     *
+     * @param order order
+     */
+    void calcTotal(Order order);
 }

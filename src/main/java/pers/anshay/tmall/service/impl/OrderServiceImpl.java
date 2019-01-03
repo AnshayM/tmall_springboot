@@ -81,7 +81,6 @@ public class OrderServiceImpl implements IOrderService {
             // 测试创建订单时抛出异常情况
             throw new RuntimeException();
         }
-
         for (OrderItem orderItem : orderItems) {
             orderItem.setOrder(order);
             orderItemService.update(orderItem);
@@ -95,5 +94,15 @@ public class OrderServiceImpl implements IOrderService {
         List<Order> orders = orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
         orderItemService.fill(orders);
         return orders;
+    }
+
+    @Override
+    public void calcTotal(Order order) {
+        List<OrderItem> orderItems = order.getOrderItems();
+        float total = 0;
+        for (OrderItem orderItem : orderItems) {
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+        }
+        order.setTotal(total);
     }
 }
