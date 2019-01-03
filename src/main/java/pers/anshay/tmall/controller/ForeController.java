@@ -367,4 +367,21 @@ public class ForeController {
         orderService.update(order);
         return order;
     }
+
+    /**
+     * 我的订单
+     *
+     * @param session session
+     * @return Result
+     */
+    @GetMapping("/foreBought")
+    public Result bought(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return Result.fail("未登录");
+        }
+        List<Order> orders = orderService.listByUserWithoutDelete(user);
+        orderService.removeOrderFromOrderItem(orders);
+        return Result.success(orders);
+    }
 }

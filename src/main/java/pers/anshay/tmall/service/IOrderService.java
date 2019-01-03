@@ -2,6 +2,7 @@ package pers.anshay.tmall.service;
 
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
+import pers.anshay.tmall.pojo.User;
 import pers.anshay.tmall.util.Page4Navigator;
 
 import java.util.List;
@@ -68,4 +69,12 @@ public interface IOrderService {
      * @return 总价
      */
     float add(Order order, List<OrderItem> orderItems);
+
+    /**
+     * 查询用户订单（去除已删除订单）
+     *
+     * @param user user
+     * @return List<Order>
+     */
+    List<Order> listByUserWithoutDelete(User user);
 }

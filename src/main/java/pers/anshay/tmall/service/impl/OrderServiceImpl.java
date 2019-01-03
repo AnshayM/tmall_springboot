@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pers.anshay.tmall.dao.OrderDao;
 import pers.anshay.tmall.pojo.Order;
 import pers.anshay.tmall.pojo.OrderItem;
+import pers.anshay.tmall.pojo.User;
 import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IOrderService;
+import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
 
 import java.util.List;
@@ -86,5 +88,12 @@ public class OrderServiceImpl implements IOrderService {
             total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
         }
         return total;
+    }
+
+    @Override
+    public List<Order> listByUserWithoutDelete(User user) {
+        List<Order> orders = orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
+        orderItemService.fill(orders);
+        return orders;
     }
 }
