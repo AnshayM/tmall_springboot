@@ -452,6 +452,10 @@ public class ForeController {
 
     /**
      * 提交评价
+     * (存在bug：产品页面评价完，刷新后还可以评价是。
+     * 解决方法：
+     * 刷新的时候通过axios到服务端获取本订单是否已经评价了；
+     * 根据服务端的返回来决定当前是否能够显示提交评价的窗口）
      *
      * @param session session
      * @param oid     订单id
