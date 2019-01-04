@@ -1,7 +1,14 @@
 package pers.anshay.tmall.controller;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.hsqldb.lib.StringUtil;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -14,6 +21,7 @@ import pers.anshay.tmall.util.Result;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * 前台请求处理器
@@ -40,6 +48,8 @@ public class ForeController {
     @Autowired
     IOrderService orderService;
 
+    private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+
     /**
      * 首页
      *
@@ -65,17 +75,25 @@ public class ForeController {
         String name = HtmlUtils.htmlEscape(user.getName());
         String password = user.getPassword();
         user.setName(name);
-        if (userService.isExist(name)) {
+        boolean exist = userService.isExist(name);
+        if (exist) {
             String message = "用户名已经被使用,不能使用";
             return Result.fail(message);
         }
-        user.setPassword(password);
+        // 使用盐加密
+        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+        int times = 2;
+        String algorithmName = "md5";
+        // 加密后的密码
+        String encodePassword = new SimpleHash(algorithmName, password, salt, times).toString();
+        user.setSalt(salt);
+        user.setPassword(encodePassword);
         userService.add(user);
         return Result.success();
     }
 
     /**
-     * 登录
+     * 登录(通过shiro验证)
      *
      * @param userParam userParam
      * @param session   session
@@ -83,14 +101,54 @@ public class ForeController {
      */
     @PostMapping("/foreLogin")
     public Result login(@RequestBody User userParam, HttpSession session) {
-        String name = HtmlUtils.htmlEscape(userParam.getName());
-        User user = userService.get(name, userParam.getPassword());
-        if (user == null) {
-            return Result.fail("账号密码错误");
-        } else {
+        String userName = userParam.getName();
+        String password = userParam.getPassword();
+
+        Subject currentUser = SecurityUtils.getSubject();
+        try {
+            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+            currentUser.login(token);
+            User user = userService.getByName(userName);
+            // 2:用session存储当前用户信息
             session.setAttribute("user", user);
             return Result.success();
+        } catch (AuthenticationException ae) {
+            logger.info("登陆失败:" + ae.getMessage());
+            return Result.fail("账号密码错误");
         }
+        /*因为逻辑设计不同，下面用token存储登录状态的方式不用*/
+//        if (!currentUser.isAuthenticated()) {
+//            //  把用户名和密码封装为UserNamePasswordToken对象
+//            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+//            // 1：用token设置记住密码
+//            token.setRememberMe(true);
+//            try {
+//                currentUser.login(token);
+//                User user = userService.getByName(userName);
+//                // 2:用session存储当前用户信息
+//                session.setAttribute("user", user);
+//                return Result.success();
+//            } catch (AuthenticationException ae) {
+//                logger.info("登陆失败:" + ae.getMessage());
+//                return Result.fail("账号密码错误");
+//            }
+//        } else {
+//            return Result.fail("账号密码错误");
+//        }
+    }
+
+    /**
+     * 登出
+     *
+     * @return 等出并跳转到首页
+     */
+    @GetMapping("/foreLogout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        return "redirect:home";
     }
 
     /**
@@ -129,8 +187,15 @@ public class ForeController {
         return Result.fail("未登录");
     }
 
+    /**
+     * 指定分类下产品排序
+     *
+     * @param cid  categoryId
+     * @param sort 排序方式
+     * @return Category
+     */
     @GetMapping("/foreCategory/{cid}")
-    private Object category(@PathVariable Integer cid, String sort) {
+    private Category category(@PathVariable Integer cid, String sort) {
         Category category = categoryService.get(cid);
         productService.fill(category);
         productService.setSaleAndReviewNumber(category.getProducts());
