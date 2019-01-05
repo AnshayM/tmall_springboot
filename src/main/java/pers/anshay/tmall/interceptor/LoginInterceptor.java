@@ -1,6 +1,8 @@
 package pers.anshay.tmall.interceptor;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import pers.anshay.tmall.pojo.User;
@@ -50,10 +52,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         String uri = httpServletRequest.getRequestURI();
         uri = StringUtils.remove(uri, contextPath + "/");
         String page = uri;
+
         if (beginWith(page, requireAuthPages)) {
-            User user = (User) session.getAttribute("user");
-            if (user == null) {
-                //重定向到登录界面
+            Subject subject = SecurityUtils.getSubject();
+            if (subject.isAuthenticated()) {
                 httpServletResponse.sendRedirect("login");
                 return false;
             }

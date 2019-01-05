@@ -178,13 +178,20 @@ public class ForeController {
         return Result.success(map);
     }
 
+    /**
+     * 检查登录状态
+     *
+     * @return Result
+     */
     @GetMapping("/foreCheckLogin")
-    public Result checkLogin(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
+    public Result checkLogin() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
             return Result.success();
+        } else {
+            return Result.fail("未登录");
         }
-        return Result.fail("未登录");
+
     }
 
     /**
