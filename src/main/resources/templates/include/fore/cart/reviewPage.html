@@ -31,7 +31,7 @@
                             })
                         });
                     },
-                    doreview: function () {
+                    doReview: function () {
                         let url = "foreDoReview?oid=" + vue.o.id + "&pid=" + vue.p.id + "&content=" + vue.content;
                         axios.post(url).then(function (response) {
                             let result = response.data;
@@ -107,7 +107,7 @@
                 </tr>
             </table>
             <div class="makeReviewButtonDiv">
-                <button @click="doreview" type="submit">提交评价</button>
+                <button @click="doReview" type="submit">提交评价</button>
             </div>
         </div>
     </div>

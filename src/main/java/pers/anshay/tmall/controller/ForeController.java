@@ -106,6 +106,7 @@ public class ForeController {
         Subject currentUser = SecurityUtils.getSubject();
         try {
             UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+            token.setRememberMe(true);
             currentUser.login(token);
             User user = userService.getByName(userName);
             // 2:用session存储当前用户信息
@@ -135,20 +136,6 @@ public class ForeController {
 //            return Result.fail("账号密码错误");
 //        }
     }
-
-    /**
-     * 登出
-     *
-     * @return 等出并跳转到首页
-     */
-//    @GetMapping("/foreLogout")
-//    public String logout() {
-//        Subject subject = SecurityUtils.getSubject();
-//        if (subject.isAuthenticated()) {
-//            subject.logout();
-//        }
-//        return "redirect:home";
-//    }
 
     /**
      * 产品页
@@ -259,7 +246,11 @@ public class ForeController {
      */
     @GetMapping("/foreBuyOne")
     public int buyOne(Integer pid, Integer num, HttpSession session) {
-        return buyOneAndAddCart(pid, num, session);
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            return buyOneAndAddCart(pid, num, session);
+        }
+        return 0;
     }
 
     /**
@@ -342,14 +333,20 @@ public class ForeController {
      * 查看购物车
      *
      * @param session session
-     * @return List<OrderItem>
+     * @return List<OrderItem>/登录
      */
     @GetMapping("/foreCart")
-    public List<OrderItem> cart(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        List<OrderItem> orderItems = orderItemService.listByUser(user);
-        productImageService.serFirstProductImagesOnOrderItems(orderItems);
-        return orderItems;
+    public Object cart(HttpSession session) {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            User user = (User) session.getAttribute("user");
+            List<OrderItem> orderItems = orderItemService.listByUser(user);
+            productImageService.serFirstProductImagesOnOrderItems(orderItems);
+            return orderItems;
+        } else {
+            return "redirect:login";
+        }
+
     }
 
     /**
@@ -522,7 +519,7 @@ public class ForeController {
     }
 
     /**
-     * 提交评价
+     * 提交评价(待重构)
      * (存在bug：产品页面评价完，刷新后还可以评价是。
      * 解决方法：
      * 刷新的时候通过axios到服务端获取本订单是否已经评价了；
@@ -534,7 +531,7 @@ public class ForeController {
      * @param content 评价内容
      * @return Result
      */
-    @GetMapping("/foreDoReview")
+    @PostMapping("/foreDoReview")
     public Result doReview(HttpSession session, Integer oid, Integer pid, String content) {
         Order order = orderService.get(oid);
         order.setStatus(ConstantKey.FINISH);
