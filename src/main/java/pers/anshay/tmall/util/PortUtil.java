@@ -13,8 +13,8 @@ import java.net.ServerSocket;
 public class PortUtil {
     public static boolean testPort(int port) {
         try {
-            ServerSocket severSocket = new ServerSocket(port);
-            severSocket.close();
+            ServerSocket ss = new ServerSocket(port);
+            ss.close();
             return false;
         } catch (java.net.BindException e) {
             return true;
@@ -33,10 +33,13 @@ public class PortUtil {
     public static void checkPort(int port, String server, boolean shutdown) {
         if (!testPort(port)) {
             if (shutdown) {
-                String message = String.format("在端口 %d 未检查得到 %s 启动 %n,是否继续？", port, server);
-                if (JOptionPane.OK_CANCEL_OPTION != JOptionPane.showConfirmDialog(null, message)) {
+                String message = String.format("在端口 %d 未检查得到 %s 启动%n", port, server);
+                JOptionPane.showMessageDialog(null, message);
+                System.exit(1);
+            } else {
+                String message = String.format("在端口 %d 未检查得到 %s 启动%n,是否继续?", port, server);
+                if (JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(null, message))
                     System.exit(1);
-                }
             }
         }
     }

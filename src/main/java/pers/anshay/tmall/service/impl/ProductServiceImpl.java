@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,7 @@ import java.util.List;
  * @date: 2018/12/6
  */
 @Service
+@CacheConfig(cacheNames = "products")
 public class ProductServiceImpl implements IProductService {
 
     @Autowired
@@ -42,26 +46,31 @@ public class ProductServiceImpl implements IProductService {
     IReviewService reviewService;
 
     @Override
+    @CacheEvict(allEntries = true)
     public Product add(Product product) {
         return productDao.save(product);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(Integer id) {
         productDao.delete(id);
     }
 
     @Override
+    @Cacheable(key = "'products-one-'+#p0")
     public Product get(Integer id) {
         return productDao.getOne(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public Product update(Product product) {
         return productDao.save(product);
     }
 
     @Override
+    @Cacheable(key = "'products-cid'+#p0+'-page-'+#p1+'-'+#p2")
     public Page4Navigator<Product> list(Integer cid, Integer start, Integer size, Integer navigatePages) {
         Category category = categoryDao.getOne(cid);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
@@ -101,6 +110,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    @Cacheable(key = "'products-cid-'+#p0.id")
     public List<Product> listByCategory(Category category) {
         return productDao.findByCategoryOrderById(category);
     }

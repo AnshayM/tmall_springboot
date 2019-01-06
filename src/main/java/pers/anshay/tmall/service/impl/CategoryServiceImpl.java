@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,17 +29,20 @@ import java.util.List;
  * @date: 2018/11/28
  */
 @Service
+@CacheConfig(cacheNames = "categories")
 public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     CategoryDao categoryDao;
 
     @Override
+    @Cacheable(key = "'categories-all'")
     public List<Category> list() {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         return categoryDao.findAll(sort);
     }
 
     @Override
+    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     public Page4Navigator<Category> list(Integer start, int size, int navigatePages) {
         /*根据id升序排列*/
         Sort sort = new Sort(Sort.Direction.ASC, "id");
@@ -46,8 +52,27 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void add(Category category) {
         categoryDao.save(category);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    public void delete(Integer id) {
+        categoryDao.delete(id);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    public void update(Category category) {
+        categoryDao.save(category);
+    }
+
+    @Override
+    @Cacheable(key = "'category-one-'+#p0")
+    public Category get(Integer id) {
+        return categoryDao.findOne(id);
     }
 
     @Override
@@ -63,21 +88,11 @@ public class CategoryServiceImpl implements ICategoryService {
         ImageIO.write(img, "jpg", file);
     }
 
-    @Override
-    public void delete(Integer id) {
-        categoryDao.delete(id);
-    }
-
-    @Override
-    public Category get(Integer id) {
-        return categoryDao.findOne(id);
-    }
-
-    @Override
-    public void update(Category category) {
-        categoryDao.save(category);
-    }
-
+    /**
+     * 这个方法用于删除Product对象上的分类属性，在这里用不到redis
+     *
+     * @param categories categories
+     */
     @Override
     public void removeCategoryFromProduct(List<Category> categories) {
         for (Category category : categories) {

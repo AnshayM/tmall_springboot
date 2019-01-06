@@ -7,7 +7,7 @@
 
 前端：Vue.js, bootstrap
 
-后端：Springboot, mybatis, jpa，shiro
+后端：Springboot, mybatis, jpa，shiro,redis
 
  
  因为是做前后端分离，而前后端数据交互用的是 json 格式。 那么Pojo对象就会被转换为 json 数据。而本项目使用 jpa 来做实体类的持久化，
@@ -15,6 +15,13 @@
  所以这里需要用 JsonIgnoreProperties 把这两个属性忽略掉。
      
  使用shiro来验证是否已登录，shiro自带登出处理，所以控制器里不用再写登出方法。
+ 
+ 使用redis时，增加，删除和修改用的注解都是:@CacheEvict(allEntries=true)，其意义是删除 categories~keys 里的所有的keys. 
+ 但并不使用	@CachePut(key="'category-one-'+ #p0")，后者作用是以 category-one-id 的方式增加到 Redis中去。 
+ 这样做本身其实是没有问题的，而且在 get 的时候，还可以使用，但是最后还是放弃这种做法了。
+ 因为，虽然这种方式可以在 redis 中增加一条数据，但是： 它并不能更新分页缓存 categories-page-0-5 里的数据， 这样会出现数据不一致的问题。
+ 
+ 后面补上基本的redis安装和启动说明，以供不了解redis的用户也能下载运行。
 
 
 开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是一个人开发的，但是保持一个好习惯也是必要的。
