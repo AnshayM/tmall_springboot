@@ -5,14 +5,14 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import pers.anshay.tmall.pojo.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * 登录拦截器
+ * 登录状态拦截器
+ * 在涉及到已登录状态的界面时检查用户是否登录。已登录则访问目标页面，未登录则跳转到登录界面。
  *
  * @author: Anshay
  * @date: 2018/12/29
@@ -55,7 +55,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if (beginWith(page, requireAuthPages)) {
             Subject subject = SecurityUtils.getSubject();
-            if (subject.isAuthenticated()) {
+            if (!subject.isAuthenticated()) {
                 httpServletResponse.sendRedirect("login");
                 return false;
             }

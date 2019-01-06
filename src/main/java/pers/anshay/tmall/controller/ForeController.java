@@ -8,7 +8,6 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.hsqldb.lib.StringUtil;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -21,7 +20,6 @@ import pers.anshay.tmall.util.Result;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * 前台请求处理器
@@ -48,7 +46,8 @@ public class ForeController {
     @Autowired
     IOrderService orderService;
 
-    private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+//    这里调用logger失败
+//    private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     /**
      * 首页
@@ -113,7 +112,7 @@ public class ForeController {
             session.setAttribute("user", user);
             return Result.success();
         } catch (AuthenticationException ae) {
-            logger.info("登陆失败:" + ae.getMessage());
+//            logger.info("登陆失败:" + ae.getMessage());
             return Result.fail("账号密码错误");
         }
         /*因为逻辑设计不同，下面用token存储登录状态的方式不用*/
@@ -142,14 +141,14 @@ public class ForeController {
      *
      * @return 等出并跳转到首页
      */
-    @GetMapping("/foreLogout")
-    public String logout() {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return "redirect:home";
-    }
+//    @GetMapping("/foreLogout")
+//    public String logout() {
+//        Subject subject = SecurityUtils.getSubject();
+//        if (subject.isAuthenticated()) {
+//            subject.logout();
+//        }
+//        return "redirect:home";
+//    }
 
     /**
      * 产品页
