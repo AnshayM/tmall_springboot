@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,7 @@ import java.util.List;
  * @date: 2018/12/5
  */
 @Service
+@CacheConfig(cacheNames = "properties")
 public class PropertyServiceImpl implements IPropertyService {
     @Autowired
     PropertyDao propertyDao;
@@ -29,26 +33,31 @@ public class PropertyServiceImpl implements IPropertyService {
     CategoryDao categoryDao;
 
     @Override
+    @CacheEvict(allEntries = true)
     public Property add(Property property) {
         return propertyDao.save(property);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(Integer id) {
         propertyDao.delete(id);
     }
 
     @Override
+    @Cacheable(key = "'properties-one-'+ #p0")
     public Property get(Integer id) {
         return propertyDao.findOne(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void update(Property property) {
         propertyDao.save(property);
     }
 
     @Override
+    @Cacheable(key = "'properties-cid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     public Page4Navigator<Property> list(Integer cid, Integer start, Integer size, Integer navigatePages) {
 
         Category category = categoryDao.getOne(cid);
@@ -61,6 +70,7 @@ public class PropertyServiceImpl implements IPropertyService {
     }
 
     @Override
+    @Cacheable(key = "'properties-cid-'+ #p0.id")
     public List<Property> listByCategory(Category category) {
         return propertyDao.findByCategory(category);
     }

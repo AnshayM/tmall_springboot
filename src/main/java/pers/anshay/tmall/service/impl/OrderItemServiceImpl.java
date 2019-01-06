@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.OrderItemDao;
 import pers.anshay.tmall.pojo.Order;
@@ -19,6 +22,7 @@ import java.util.List;
  * @date: 2018/12/18
  */
 @Service
+@CacheConfig(cacheNames = "orderItems")
 public class OrderItemServiceImpl implements IOrderItemService {
     @Autowired
     OrderItemDao orderItemDao;
@@ -48,21 +52,25 @@ public class OrderItemServiceImpl implements IOrderItemService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void update(OrderItem orderItem) {
         orderItemDao.save(orderItem);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void add(OrderItem orderItem) {
         orderItemDao.save(orderItem);
     }
 
     @Override
+    @Cacheable(key = "'orderItmes-one-'+#p0")
     public OrderItem get(Integer id) {
         return orderItemDao.findOne(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(Integer id) {
         orderItemDao.delete(id);
     }
@@ -83,16 +91,19 @@ public class OrderItemServiceImpl implements IOrderItemService {
     }
 
     @Override
+    @Cacheable(key = "'orderItems-oid-'+ #p0.id")
     public List<OrderItem> listByOrder(Order order) {
         return orderItemDao.findByOrderOrderByIdDesc(order);
     }
 
     @Override
+    @Cacheable(key = "'orderItems-pid-'+ #p0.id")
     public List<OrderItem> listByProduct(Product product) {
         return orderItemDao.findByProduct(product);
     }
 
     @Override
+    @Cacheable(key = "'orderItems-uid-'+ #p0.id")
     public List<OrderItem> listByUser(User user) {
         return orderItemDao.findByUserAndOrderIsNull(user);
     }

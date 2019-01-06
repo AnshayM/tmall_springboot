@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.ProductImageDao;
 import pers.anshay.tmall.pojo.OrderItem;
@@ -16,32 +19,38 @@ import java.util.List;
  * @date: 2018/12/8
  */
 @Service
+@CacheConfig(cacheNames = "productImages")
 public class ProductImageServiceImpl implements IProductImageService {
 
     @Autowired
     ProductImageDao productImageDao;
 
     @Override
+    @CacheEvict(allEntries=true)
     public void add(ProductImage productImage) {
         productImageDao.save(productImage);
     }
 
     @Override
+    @CacheEvict(allEntries=true)
     public void delete(Integer id) {
         productImageDao.delete(id);
     }
 
     @Override
+    @CacheEvict(allEntries=true)
     public void update(ProductImage productImage) {
         productImageDao.save(productImage);
     }
 
     @Override
+    @Cacheable(key = "'productImages-one-'+ #p0")
     public ProductImage get(Integer id) {
         return productImageDao.findOne(id);
     }
 
     @Override
+    @Cacheable(key="'productImages-pid-'+ #p0.id")
     public List<ProductImage> listProductImage(Product product, String type) {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type);
     }

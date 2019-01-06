@@ -20,6 +20,7 @@ import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.service.IReviewService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
+import pers.anshay.tmall.util.SpringContextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,8 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void fill(Category category) {
-        List<Product> products = listByCategory(category);
+        IProductService productService = SpringContextUtil.getBean(IProductService.class);
+        List<Product> products = productService.listByCategory(category);
         productImageService.setFirstProductImages(products);
         category.setProducts(products);
     }

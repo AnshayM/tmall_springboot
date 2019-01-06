@@ -1,6 +1,9 @@
 package pers.anshay.tmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IOrderService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
+import pers.anshay.tmall.util.SpringContextUtil;
 
 import java.util.List;
 
@@ -26,6 +30,7 @@ import java.util.List;
  * @date: 2018/12/18
  */
 @Service
+@CacheConfig(cacheNames = "orders")
 public class OrderServiceImpl implements IOrderService {
 
     @Autowired
@@ -34,6 +39,7 @@ public class OrderServiceImpl implements IOrderService {
     IOrderItemService orderItemService;
 
     @Override
+    @Cacheable(key = "'orders-page-'+#p0+ '-' + #p1")
     public Page4Navigator<Order> list(Integer start, Integer size, Integer navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
@@ -58,21 +64,25 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    @Cacheable(key = "'orders-one-'+ #p0")
     public Order get(Integer orderId) {
         return orderDao.findOne(orderId);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void update(Order order) {
         orderDao.save(order);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void add(Order order) {
         orderDao.save(order);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     @Transactional(propagation = Propagation.REQUIRED, rollbackForClassName = "Exception")
     public float add(Order order, List<OrderItem> orderItems) {
         float total = 0;
@@ -89,8 +99,12 @@ public class OrderServiceImpl implements IOrderService {
         return total;
     }
 
+    //
     @Override
+    @Cacheable(key = "'orders-uid-'+ #p0.id")
     public List<Order> listByUserWithoutDelete(User user) {
+//        这里不确定要先走下面这步（待重构）
+//        IOrderService orderService = SpringContextUtil.getBean(IOrderService.class);
         List<Order> orders = orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
         orderItemService.fill(orders);
         return orders;

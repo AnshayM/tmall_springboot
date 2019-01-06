@@ -41,6 +41,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryDao.findAll(sort);
     }
 
+
     @Override
     @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
     public Page4Navigator<Category> list(Integer start, int size, int navigatePages) {
