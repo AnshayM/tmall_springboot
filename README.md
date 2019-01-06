@@ -7,13 +7,15 @@
 
 前端：Vue.js, bootstrap
 
-后端：Springboot, mybatis, jpa
+后端：Springboot, mybatis, jpa，shiro
 
  
  因为是做前后端分离，而前后端数据交互用的是 json 格式。 那么Pojo对象就会被转换为 json 数据。而本项目使用 jpa 来做实体类的持久化，
  jpa 默认会使用 hibernate,在 jpa 工作过程中，就会创造代理类来继承该Pojo类，并添加 handler 和 hibernateLazyInitializer 这两个无需要 json 化的属性，
  所以这里需要用 JsonIgnoreProperties 把这两个属性忽略掉。
      
+ 使用shiro来验证是否已登录，shiro自带登出处理，所以控制器里不用再写登出方法。
+
 
 开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是一个人开发的，但是保持一个好习惯也是必要的。
 
