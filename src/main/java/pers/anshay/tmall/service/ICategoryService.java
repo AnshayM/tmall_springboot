@@ -2,7 +2,6 @@ package pers.anshay.tmall.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import pers.anshay.tmall.pojo.Category;
-import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.util.Page4Navigator;
 
 import javax.servlet.http.HttpServletRequest;
