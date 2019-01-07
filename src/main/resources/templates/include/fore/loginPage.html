@@ -1,48 +1,47 @@
 <div th:fragment="html">
     <script>
-        $(function(){
+        $(function () {
             var data4Vue = {
-                uri:'foreLogin',
+                uri: 'foreLogin',
                 result: [],
-                user:{name:'', password:''}
+                user: {name: '', password: ''}
             };
             //ViewModel
             var vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
-                mounted:function(){
+                mounted: function () {
                     linkDefaultActions();
                 },
                 methods: {
-                    login:function(){
-                        var url =  this.uri;
-                        if(0==this.user.name.length){
+                    login: function () {
+                        var url = this.uri;
+                        if (0 == this.user.name.length) {
                             $("span.errorMessage").html("请输入用户名");
-                            $("div.loginErrorMessageDiv").css("visibility","visible");
+                            $("div.loginErrorMessageDiv").css("visibility", "visible");
                             return;
                         }
-                        if(0==this.user.password.length){
+                        if (0 == this.user.password.length) {
                             $("span.errorMessage").html("请输入密码");
-                            $("div.loginErrorMessageDiv").css("visibility","visible");
+                            $("div.loginErrorMessageDiv").css("visibility", "visible");
                             return;
                         }
 
-                        axios.post(url,this.user).then(function(response) {
+                        axios.post(url, this.user).then(function (response) {
                             var result = response.data;
-                            if(result.code==0){
-                                location.href="home";
-                            }
-                            else{
+                            if (result.code == 0) {
+                                location.href = "home";
+                            } else {
                                 $("span.errorMessage").html(result.message);
-                                $("div.loginErrorMessageDiv").css("visibility","visible");
+                                $("div.loginErrorMessageDiv").css("visibility", "visible");
                             }
                         });
                     }
                 }
             });
 
-            var left = window.innerWidth/2+162;
-            $("div.loginSmallDiv").css("left",left);
+            var left = window.innerWidth / 2 + 162;
+            $("div.loginSmallDiv").css("left", left);
         })
     </script>
 
@@ -54,25 +53,25 @@
         <img id="loginBackgroundImg" class="loginBackgroundImg" src="img/site/loginBackground.png">
         <div id="loginSmallDiv" class="loginSmallDiv">
             <div class="loginErrorMessageDiv">
-                <div class="alert alert-danger" >
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                     <span class="errorMessage">22</span>
                 </div>
             </div>
 
             <div class="login_acount_text">账户登录</div>
-            <div class="loginInput " >
+            <div class="loginInput ">
 					<span class="loginInputIcon ">
 						<span class=" glyphicon glyphicon-user"></span>
 					</span>
                 <input v-model="user.name" placeholder="手机/会员名/邮箱" type="text">
             </div>
 
-            <div class="loginInput " >
+            <div class="loginInput ">
 					<span class="loginInputIcon ">
 						<span class=" glyphicon glyphicon-lock"></span>
 					</span>
-                <input v-model="user.password" type="password" placeholder="密码" type="text">
+                <input v-model="user.password" type="password" placeholder="密码" @keyup.enter="login">
             </div>
             <span class="text-danger">不要输入真实的天猫账号密码</span><br><br>
             <div>
