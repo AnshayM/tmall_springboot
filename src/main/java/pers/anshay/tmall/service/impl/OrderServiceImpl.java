@@ -99,15 +99,18 @@ public class OrderServiceImpl implements IOrderService {
         return total;
     }
 
-    //
     @Override
-    @Cacheable(key = "'orders-uid-'+ #p0.id")
     public List<Order> listByUserWithoutDelete(User user) {
-//        这里不确定要先走下面这步（待重构）
-//        IOrderService orderService = SpringContextUtil.getBean(IOrderService.class);
-        List<Order> orders = orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
+        IOrderService orderService = SpringContextUtil.getBean(IOrderService.class);
+        List<Order> orders = orderService.listByUserAndNotDeleted(user);
         orderItemService.fill(orders);
         return orders;
+    }
+
+    @Override
+    @Cacheable(key = "'orders-uid-'+ #p0.id")
+    public List<Order> listByUserAndNotDeleted(User user) {
+        return orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
     }
 
     @Override

@@ -26,19 +26,19 @@ public class ProductImageServiceImpl implements IProductImageService {
     ProductImageDao productImageDao;
 
     @Override
-    @CacheEvict(allEntries=true)
+    @CacheEvict(allEntries = true)
     public void add(ProductImage productImage) {
         productImageDao.save(productImage);
     }
 
     @Override
-    @CacheEvict(allEntries=true)
+    @CacheEvict(allEntries = true)
     public void delete(Integer id) {
         productImageDao.delete(id);
     }
 
     @Override
-    @CacheEvict(allEntries=true)
+    @CacheEvict(allEntries = true)
     public void update(ProductImage productImage) {
         productImageDao.save(productImage);
     }
@@ -50,7 +50,7 @@ public class ProductImageServiceImpl implements IProductImageService {
     }
 
     @Override
-    @Cacheable(key="'productImages-pid-'+ #p0.id")
+    @Cacheable(key = "'productImages-pid-'+ #p0.id+'-type-'+#p1")
     public List<ProductImage> listProductImage(Product product, String type) {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type);
     }

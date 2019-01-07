@@ -31,17 +31,12 @@ public class JPARealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        // debug下看看token数据结构，对比尚硅谷的代码学习理解
         String userName = token.getPrincipal().toString();
-//        这里也可以获取用户名
-//        UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-//        String username = upToken.getUsername();
         User user = userService.getByName(userName);
         String psdInDB = user.getPassword();
         String salt = user.getSalt();
         ByteSource credentialsSalt = ByteSource.Util.bytes(salt);
         // 参数：用户名-密码-加工后的盐-realm
-        //另一种将前台传过来的密码和数据库里的密码比对来验证登录，要多一个参数
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userName, psdInDB,
                 credentialsSalt, getName());
         return authenticationInfo;

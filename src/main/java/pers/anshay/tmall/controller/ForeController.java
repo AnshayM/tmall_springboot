@@ -79,12 +79,14 @@ public class ForeController {
             String message = "用户名已经被使用,不能使用";
             return Result.fail(message);
         }
-        // 使用盐加密
+        // 盐值（一般用唯一的账户id，这里使用随机数）
         String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-        int times = 2;
+        // 迭代次数
+        int hashIterations = 2;
+        // 运算法则
         String algorithmName = "md5";
         // 加密后的密码
-        String encodePassword = new SimpleHash(algorithmName, password, salt, times).toString();
+        String encodePassword = new SimpleHash(algorithmName, password, salt, hashIterations).toString();
         user.setSalt(salt);
         user.setPassword(encodePassword);
         userService.add(user);
@@ -93,6 +95,7 @@ public class ForeController {
 
     /**
      * 登录(通过shiro验证)
+     * (待重构session信息可考虑存到shiro的session里)
      *
      * @param userParam userParam
      * @param session   session
@@ -104,24 +107,25 @@ public class ForeController {
         String password = userParam.getPassword();
 
         Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+//            记住密码
+//        token.setRememberMe(true);
         try {
-            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-            token.setRememberMe(true);
             currentUser.login(token);
             User user = userService.getByName(userName);
-            // 2:用session存储当前用户信息
+//            currentUser.getSession().setAttribute("user", user);
             session.setAttribute("user", user);
             return Result.success();
         } catch (AuthenticationException ae) {
-//            logger.info("登陆失败:" + ae.getMessage());
+            System.out.println("登陆失败:" + ae.getMessage());
             return Result.fail("账号密码错误");
         }
-        /*因为逻辑设计不同，下面用token存储登录状态的方式不用*/
+//        在点了记住密码的情况下，currentUser.isAuthenticated()会一直为true，
+//        不记住密码情况下调用subject.logout()方法后，就会变成false
 //        if (!currentUser.isAuthenticated()) {
-//            //  把用户名和密码封装为UserNamePasswordToken对象
 //            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-//            // 1：用token设置记住密码
-//            token.setRememberMe(true);
+////            记住密码
+////            token.setRememberMe(true);
 //            try {
 //                currentUser.login(token);
 //                User user = userService.getByName(userName);
@@ -129,11 +133,11 @@ public class ForeController {
 //                session.setAttribute("user", user);
 //                return Result.success();
 //            } catch (AuthenticationException ae) {
-//                logger.info("登陆失败:" + ae.getMessage());
+//                System.out.println("登陆失败:" + ae.getMessage());
 //                return Result.fail("账号密码错误");
 //            }
 //        } else {
-//            return Result.fail("账号密码错误");
+//            return null;
 //        }
     }
 
@@ -338,15 +342,10 @@ public class ForeController {
     @GetMapping("/foreCart")
     public Object cart(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            User user = (User) session.getAttribute("user");
-            List<OrderItem> orderItems = orderItemService.listByUser(user);
-            productImageService.serFirstProductImagesOnOrderItems(orderItems);
-            return orderItems;
-        } else {
-            return "redirect:login";
-        }
-
+        User user = (User) session.getAttribute("user");
+        List<OrderItem> orderItems = orderItemService.listByUser(user);
+        productImageService.serFirstProductImagesOnOrderItems(orderItems);
+        return orderItems;
     }
 
     /**
@@ -443,10 +442,10 @@ public class ForeController {
      * @return Result
      */
     @GetMapping("/foreBought")
-    public Result bought(HttpSession session) {
+    public Object bought(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (null == user) {
-            return Result.fail("未登录");
+            return "redirect:login";
         }
         List<Order> orders = orderService.listByUserWithoutDelete(user);
         orderService.removeOrderFromOrderItem(orders);

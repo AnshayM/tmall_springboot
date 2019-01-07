@@ -18,11 +18,30 @@
  [我的shiro学习记录](https://github.com/AnshayM/shiro/blob/master/README.md)
  
  使用redis时，增加，删除和修改用的注解都是:@CacheEvict(allEntries=true)，其意义是删除 categories~keys 里的所有的keys. 
- 但并不使用	@CachePut(key="'category-one-'+ #p0")，后者作用是以 category-one-id 的方式增加到 Redis中去。 
+ 但并不使用	@CachePut(key="'category-one-'+ #p0")，后者作用是以 category-one-id 的方式增加到 Redis中去。
  这样做本身其实是没有问题的，而且在 get 的时候，还可以使用，但是最后还是放弃这种做法了。
- 因为，虽然这种方式可以在 redis 中增加一条数据，但是： 它并不能更新分页缓存 categories-page-0-5 里的数据， 这样会出现数据不一致的问题。
- 
- 后面补上基本的redis安装和启动说明，以供不了解redis的用户也能下载运行。
+ 因为，虽然这种方式可以在 redis 中增加一条数据，但是： 它并不能更新分页缓存 categories-page-0-5 里的数据，这样会出现数据不一致的问题。  
+ 如果在service的方法里调用另一个缓存管理的方法，不能够直接调用，需要通过一个工具再拿一次Service再调用，类似如下代码中
+```
+@Override
+public List<Order> listByUserWithoutDelete(User user) {
+    IOrderService orderService = SpringContextUtil.getBean(IOrderService.class);
+    List<Order> orders = orderService.listByUserAndNotDeleted(user);
+    orderItemService.fill(orders);
+    return orders;
+}
+
+@Override
+@Cacheable(key = "'orders-uid-'+ #p0.id")
+public List<Order> listByUserAndNotDeleted(User user) {
+    return orderDao.findByUserAndStatusNotOrderByIdDesc(user, ConstantKey.DELETE);
+}
+```
+这个 listByCategory 方法本来就是 ProductService 的方法，却不能直接调用。 
+为什么呢？ 因为 springboot 的缓存机制是通过切面编程 aop来实现的。 
+从fill方法里直接调用 listByCategory 方法， aop 是拦截不到的，也就不会走缓存了。 所以要通过这种 绕一绕 的方式故意诱发 aop, 这样才会想我们期望的那样走redis缓存。  
+
+后面补上基本的redis安装和启动说明，以供不了解redis的用户也能下载运行。
 
 
 开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是个人开发的，但是保持一个好的代码习惯也是必要的。

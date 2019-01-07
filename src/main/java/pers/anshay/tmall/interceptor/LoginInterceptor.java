@@ -53,11 +53,20 @@ public class LoginInterceptor implements HandlerInterceptor {
         uri = StringUtils.remove(uri, contextPath + "/");
         String page = uri;
 
+//        待重构，登录完成后返回原访问界面
         if (beginWith(page, requireAuthPages)) {
             Subject subject = SecurityUtils.getSubject();
             if (!subject.isAuthenticated()) {
                 httpServletResponse.sendRedirect("login");
                 return false;
+            } else {
+                //   先确定不产生bug，再优化业务逻辑。看看shiro文档找找过滤的解决办法
+                //   isAuthenticated()是true但是没有用户信息
+                Object user = subject.getSession().getAttribute("user");
+                if (null == user) {
+                    httpServletResponse.sendRedirect("login");
+                    return false;
+                }
             }
         }
         return true;

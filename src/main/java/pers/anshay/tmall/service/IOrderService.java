@@ -79,9 +79,18 @@ public interface IOrderService {
     List<Order> listByUserWithoutDelete(User user);
 
     /**
+     * 查询用户订单（去除已删除订单）
+     *
+     * @param user user
+     * @return List<Order>
+     */
+    List<Order> listByUserAndNotDeleted(User user);
+
+    /**
      * 计算设置订单总额
      *
      * @param order order
      */
     void calcTotal(Order order);
+
 }

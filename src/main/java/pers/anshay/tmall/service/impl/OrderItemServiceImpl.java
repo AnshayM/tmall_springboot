@@ -47,8 +47,8 @@ public class OrderItemServiceImpl implements IOrderItemService {
             productImageService.setFirstProductImage(item.getProduct());
         }
         order.setTotal(total);
-        order.setOrderItems(orderItems);
         order.setTotalNumber(totalNumber);
+        order.setOrderItems(orderItems);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class OrderItemServiceImpl implements IOrderItemService {
     }
 
     @Override
-    @Cacheable(key = "'orderItmes-one-'+#p0")
+    @Cacheable(key = "'orderItems-one-'+ #p0")
     public OrderItem get(Integer id) {
         return orderItemDao.findOne(id);
     }

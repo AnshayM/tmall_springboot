@@ -41,11 +41,9 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryDao.findAll(sort);
     }
 
-
     @Override
-    @Cacheable(key = "'categories-page-'+#p0+'-'+#p1")
+    @Cacheable(key = "'categories-page-'+#p0+ '-' + #p1")
     public Page4Navigator<Category> list(Integer start, int size, int navigatePages) {
-        /*根据id升序排列*/
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
         Page pageFromJPA = categoryDao.findAll(pageable);
