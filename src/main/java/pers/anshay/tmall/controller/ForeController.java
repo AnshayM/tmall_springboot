@@ -151,8 +151,8 @@ public class ForeController {
     public Result product(@PathVariable("pid") Integer pid) {
         Product product = productService.get(pid);
 
-        List<ProductImage> productSingleImages = productImageService.listProductImage(product, ConstantKey.TYPE_SINGLE);
-        List<ProductImage> productDetailImages = productImageService.listProductImage(product, ConstantKey.TYPE_DETAIL);
+        List<ProductImage> productSingleImages = productImageService.listSingleProductImages(product);
+        List<ProductImage> productDetailImages = productImageService.listDetailProductImages(product);
         product.setProductSingleImages(productSingleImages);
         product.setProductDetailImages(productDetailImages);
 

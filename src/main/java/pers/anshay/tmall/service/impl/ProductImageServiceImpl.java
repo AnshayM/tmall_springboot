@@ -55,6 +55,20 @@ public class ProductImageServiceImpl implements IProductImageService {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type);
     }
 
+    /*上面统一的方法在使用redis时会失效，分开使用就不会出现这种情况*/
+    /*不是这个问题，是其他原因*/
+    @Override
+    @Cacheable(key = "'productImages-single-pid-'+ #p0.id")
+    public List<ProductImage> listSingleProductImages(Product product) {
+        return productImageDao.findByProductAndTypeOrderByIdDesc(product, ConstantKey.TYPE_SINGLE);
+    }
+
+    @Override
+    @Cacheable(key = "'productImages-detail-pid-'+ #p0.id")
+    public List<ProductImage> listDetailProductImages(Product product) {
+        return productImageDao.findByProductAndTypeOrderByIdDesc(product, ConstantKey.TYPE_DETAIL);
+    }
+
     @Override
     public void setFirstProductImage(Product product) {
         List<ProductImage> singleImages = listProductImage(product, ConstantKey.TYPE_SINGLE);

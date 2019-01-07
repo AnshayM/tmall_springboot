@@ -51,6 +51,10 @@ public interface IProductImageService {
      */
     List<ProductImage> listProductImage(Product product, String type);
 
+    List<ProductImage> listSingleProductImages(Product product);
+
+    List<ProductImage> listDetailProductImages(Product product);
+
     /**
      * 设置产品首图
      *

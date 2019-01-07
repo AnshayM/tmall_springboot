@@ -71,7 +71,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    @Cacheable(key = "'products-cid'+#p0+'-page-'+#p1+'-'+#p2")
+    @Cacheable(key = "'products-cid-'+#p0+'-page-'+#p1+'-'+#p2")
     public Page4Navigator<Product> list(Integer cid, Integer start, Integer size, Integer navigatePages) {
         Category category = categoryDao.getOne(cid);
         Sort sort = new Sort(Sort.Direction.ASC, "id");
