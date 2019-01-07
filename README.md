@@ -14,7 +14,8 @@
  jpa 默认会使用 hibernate,在 jpa 工作过程中，就会创造代理类来继承该Pojo类，并添加 handler 和 hibernateLazyInitializer 这两个无需要 json 化的属性，
  所以这里需要用 JsonIgnoreProperties 把这两个属性忽略掉。
      
- 使用shiro来验证是否已登录，shiro自带登出处理，所以控制器里不用再写登出方法。
+ 调用Subject的login和logout方法来控制登录和登出动作
+ [我的shiro学习记录](https://github.com/AnshayM/shiro/blob/master/README.md)
  
  使用redis时，增加，删除和修改用的注解都是:@CacheEvict(allEntries=true)，其意义是删除 categories~keys 里的所有的keys. 
  但并不使用	@CachePut(key="'category-one-'+ #p0")，后者作用是以 category-one-id 的方式增加到 Redis中去。 
@@ -24,7 +25,7 @@
  后面补上基本的redis安装和启动说明，以供不了解redis的用户也能下载运行。
 
 
-开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是一个人开发的，但是保持一个好习惯也是必要的。
+开发规范，每次提交时都先使用阿里巴巴编码规约插件扫描代码，更正后再提交。虽然是个人开发的，但是保持一个好的代码习惯也是必要的。
 
 [项目中的图片资源链接](https://pan.baidu.com/s/1VtjKkjXAxAp54S0qZpTTuw) 
 提取码：*o6k3*
