@@ -12,7 +12,9 @@ import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.User;
 import pers.anshay.tmall.service.IOrderItemService;
 import pers.anshay.tmall.service.IProductImageService;
+import pers.anshay.tmall.util.SpringContextUtil;
 
+import javax.swing.*;
 import java.util.List;
 
 /**
@@ -38,7 +40,8 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Override
     public void fill(Order order) {
-        List<OrderItem> orderItems = listByOrder(order);
+        IOrderItemService orderItemService = SpringContextUtil.getBean(IOrderItemService.class);
+        List<OrderItem> orderItems = orderItemService.listByOrder(order);
         float total = 0;
         int totalNumber = 0;
         for (OrderItem item : orderItems) {
@@ -77,7 +80,8 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Override
     public Integer getSaleCount(Product product) {
-        List<OrderItem> orderItems = listByProduct(product);
+        IOrderItemService orderItemService = SpringContextUtil.getBean(IOrderItemService.class);
+        List<OrderItem> orderItems = orderItemService.listByProduct(product);
         int result = 0;
         // 这里可以考虑使用sql查询来做
         for (OrderItem orderItem : orderItems) {

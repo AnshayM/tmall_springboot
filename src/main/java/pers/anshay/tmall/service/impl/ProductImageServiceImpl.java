@@ -11,6 +11,7 @@ import pers.anshay.tmall.pojo.Product;
 import pers.anshay.tmall.pojo.ProductImage;
 import pers.anshay.tmall.service.IProductImageService;
 import pers.anshay.tmall.util.ConstantKey;
+import pers.anshay.tmall.util.SpringContextUtil;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class ProductImageServiceImpl implements IProductImageService {
         return productImageDao.findByProductAndTypeOrderByIdDesc(product, type);
     }
 
-    /*上面统一的方法在使用redis时会失效，分开使用就不会出现这种情况*/
+    /*上面统一的方法在使用redis时会失效，分开使用就 不会出现这种情况*/
     /*不是这个问题，是其他原因*/
     @Override
     @Cacheable(key = "'productImages-single-pid-'+ #p0.id")
@@ -71,7 +72,8 @@ public class ProductImageServiceImpl implements IProductImageService {
 
     @Override
     public void setFirstProductImage(Product product) {
-        List<ProductImage> singleImages = listProductImage(product, ConstantKey.TYPE_SINGLE);
+        IProductImageService productImageService = SpringContextUtil.getBean(IProductImageService.class);
+        List<ProductImage> singleImages = productImageService.listProductImage(product, ConstantKey.TYPE_SINGLE);
         if (!singleImages.isEmpty()) {
             product.setFirstProductImage(singleImages.get(0));
         } else {

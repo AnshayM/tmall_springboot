@@ -11,6 +11,7 @@ import pers.anshay.tmall.pojo.Property;
 import pers.anshay.tmall.pojo.PropertyValue;
 import pers.anshay.tmall.service.IPropertyService;
 import pers.anshay.tmall.service.IPropertyValueService;
+import pers.anshay.tmall.util.SpringContextUtil;
 
 import java.util.List;
 
@@ -31,9 +32,10 @@ public class PropertyValueServiceImpl implements IPropertyValueService {
 
     @Override
     public void init(Product product) {
+        IPropertyValueService propertyValueService = SpringContextUtil.getBean(IPropertyValueService.class);
         List<Property> properties = propertyService.listByCategory(product.getCategory());
         for (Property property : properties) {
-            PropertyValue propertyValue = getByPropertyAndProduct(product, property);
+            PropertyValue propertyValue = propertyValueService.getByPropertyAndProduct(product, property);
             if (null == propertyValue) {
                 propertyValue = new PropertyValue();
                 propertyValue.setProduct(product);

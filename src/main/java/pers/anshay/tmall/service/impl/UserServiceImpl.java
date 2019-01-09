@@ -13,6 +13,7 @@ import pers.anshay.tmall.dao.UserDao;
 import pers.anshay.tmall.pojo.User;
 import pers.anshay.tmall.service.IUserService;
 import pers.anshay.tmall.util.Page4Navigator;
+import pers.anshay.tmall.util.SpringContextUtil;
 
 /**
  * UserServiceImpl
@@ -37,7 +38,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean isExist(String name) {
-        User user = getByName(name);
+        IUserService userService = SpringContextUtil.getBean(IUserService.class);
+        User user = userService.getByName(name);
         return null != user;
     }
 
