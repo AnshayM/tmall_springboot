@@ -1,0 +1,23 @@
+#使用yml格式时，thymeleaf会有一大堆问题。抱着解决问题的态度，上网查了查，说SpringBoot+thymeleaf是一个雷坑，节省时间做其他事，
+#这里懒得踩坑了，还是保持使用properties。这里作为踩坑记录。
+
+##使用环境切换
+#spring.profiles.active: dev       #开发
+##spring.profiles.active: test     #测试
+##spring.profiles.active: prod     #生产
+#
+#Spring:
+#  thymeleaf:
+##    mode: LEGACYHTML5
+##    content-type: text/html
+#    encoding: UTF-8
+#    cache: false
+#  http:
+#    multipart:
+#      max-file-size: 100Mb
+#      max-request-size: 100Mb
+#
+#
+##context
+#server:
+#  context-path: /tmall_springboot
