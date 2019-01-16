@@ -5,6 +5,7 @@
 #spring.profiles.active: dev       #开发
 ##spring.profiles.active: test     #测试
 ##spring.profiles.active: prod     #生产
+
 #
 #Spring:
 #  thymeleaf:
