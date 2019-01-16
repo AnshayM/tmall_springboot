@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
+import pers.anshay.tmall.util.PortUtil;
 
 /**
  * 项目启动类
@@ -14,12 +16,13 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  */
 @SpringBootApplication
 @ServletComponentScan
-//@EnableCaching
+@EnableCaching
 public class Application extends SpringBootServletInitializer {
-    //    static {
-    /*本地调试的时候，用来检测redis服务是否开启，部署时删除*/
-//        PortUtil.checkPort(6379, "Redis 服务端", true);
-//    }
+    /*本地调试的时候，用来检测相应服务是否开启，部署时删除*/
+    static {
+        PortUtil.checkPort(6379, "Redis 服务端", true);
+    }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
         return applicationBuilder.sources(Application.class);
