@@ -1,5 +1,8 @@
 package pers.anshay.tmall.service.impl;
 
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,9 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import pers.anshay.tmall.dao.CategoryDao;
 import pers.anshay.tmall.dao.ProductDao;
+import pers.anshay.tmall.elasticsearch.IProductEsDao;
 import pers.anshay.tmall.pojo.Category;
 import pers.anshay.tmall.pojo.OrderItem;
 import pers.anshay.tmall.pojo.Product;
@@ -45,16 +51,20 @@ public class ProductServiceImpl implements IProductService {
     IOrderItemService orderItemService;
     @Autowired
     IReviewService reviewService;
+    @Autowired
+    IProductEsDao productEsDao;
 
     @Override
     @CacheEvict(allEntries = true)
     public Product add(Product product) {
+        productEsDao.save(product);
         return productDao.save(product);
     }
 
     @Override
     @CacheEvict(allEntries = true)
     public void delete(Integer id) {
+        productEsDao.delete(id);
         productDao.delete(id);
     }
 
@@ -67,6 +77,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     @CacheEvict(allEntries = true)
     public Product update(Product product) {
+        productEsDao.save(product);
         return productDao.save(product);
     }
 
@@ -132,9 +143,39 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<Product> search(String keyword, Integer start, Integer size) {
+        /*不再使用原有模糊查询，改用elasticsearch查询*/
+//         Sort sort = new Sort(Sort.Direction.DESC, "id");
+//         Pageable pageable = new PageRequest(start, size, sort);
+//         return productDao.findByNameLike("%" + keyword + "%", pageable);
+
+        initDatabase2ES();
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery()
+                .add(QueryBuilders.matchPhraseQuery("name", keyword), ScoreFunctionBuilders.weightFactorFunction(100))
+                .scoreMode("sum")
+                .setMinScore(10);
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size, sort);
-        return productDao.findByNameLike("%" + keyword + "%", pageable);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withPageable(pageable)
+                .withQuery(functionScoreQueryBuilder)
+                .build();
+        Page<Product> page = productEsDao.search(searchQuery);
+        return page.getContent();
+    }
+
+    /**
+     * 初始化数据到elasticsearch
+     * 刚开始都在数据库中，不在ES中，所以需要先判断ES中有无数据，没有的时候做相应填充。
+     */
+    public void initDatabase2ES() {
+        Pageable pageable = new PageRequest(0, 5);
+        Page<Product> page = productEsDao.findAll(pageable);
+        if (page.getContent().isEmpty()) {
+            List<Product> products = productDao.findAll();
+            for (Product product : products) {
+                productEsDao.save(product);
+            }
+        }
     }
 
 }
