@@ -44,13 +44,12 @@ public void fill(Category category) {
 [初步认识Redis](https://blog.csdn.net/qq_27665897/article/details/82149195)  
 [Linux下Redis的安装、运行和远程连接](https://blog.csdn.net/qq_27665897/article/details/86441293) 
 
-
-### 编码规范
+# 编码规范
   采用RestFull风格，并且每次提交时都先使用阿里巴巴编码规约插件扫描代码，修缮后再提交。
   虽然不是企业向项目，但保持一个好的代码习惯也是必要的。
 
 
-### 图片资源
+# 图片资源
 - 项目使用的图片资源有200多m，放在这里：  
 [项目中的图片资源链接](https://pan.baidu.com/s/1VtjKkjXAxAp54S0qZpTTuw)—
 提取码：*o6k3*
