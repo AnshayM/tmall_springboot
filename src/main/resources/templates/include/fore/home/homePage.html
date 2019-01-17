@@ -14,27 +14,27 @@
 
         function homePageRegisterListeners(){
             $("div.eachCategory").mouseenter(function(){
-                var cid = $(this).attr("cid");
+                let cid = $(this).attr("cid");
                 showProductsAsideCategorys(cid);
             });
             $("div.eachCategory").mouseleave(function(){
-                var cid = $(this).attr("cid");
+                let cid = $(this).attr("cid");
                 hideProductsAsideCategorys(cid);
             });
             $("div.productsAsideCategorys").mouseenter(function(){
-                var cid = $(this).attr("cid");
+                let cid = $(this).attr("cid");
                 showProductsAsideCategorys(cid);
             });
             $("div.productsAsideCategorys").mouseleave(function(){
-                var cid = $(this).attr("cid");
+                let cid = $(this).attr("cid");
                 hideProductsAsideCategorys(cid);
             });
 
             $("div.rightMenu span").mouseenter(function(){
-                var left = $(this).position().left;
-                var top = $(this).position().top;
-                var width = $(this).css("width");
-                var destLeft = parseInt(left) + parseInt(width)/2;
+                let left = $(this).position().left;
+                let top = $(this).position().top;
+                let width = $(this).css("width");
+                let destLeft = parseInt(left) + parseInt(width)/2;
                 $("img#catear").css("left",destLeft);
                 $("img#catear").css("top",top-20);
                 $("img#catear").fadeIn(500);
@@ -44,13 +44,13 @@
                 $("img#catear").hide();
             });
 
-            var left = $("div#carousel-of-product").offset().left;
+            let left = $("div#carousel-of-product").offset().left;
             $("div.categoryMenu").css("left",left-20);
             $("div.categoryWithCarousel div.head").css("margin-left",left);
             $("div.productsAsideCategorys").css("left",left-20);
 
             $("div.productsAsideCategorys div.row a").each(function(){
-                var v = Math.round(Math.random() *6);
+                let v = Math.round(Math.random() *6);
                 if(v == 1)
                     $(this).css("color","#87CEFA");
             });
@@ -58,12 +58,12 @@
 
         $(function(){
 
-            var data4Vue = {
+            let data4Vue = {
                 uri:'foreHome',
                 categories: []
             };
             //ViewModel
-            var vue = new Vue({
+            let vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
                 mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
@@ -72,7 +72,7 @@
                 },
                 methods: {
                     load:function(){
-                        var url =  this.uri;
+                        let url =  this.uri;
                         axios.get(url).then(function(response) {
                             vue.categories = response.data;
                             vue.$nextTick(function(){

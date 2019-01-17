@@ -46,17 +46,24 @@
                     });
                 },
                 add: function () {
-                    if (!checkEmpty(this.bean.name, "产品名称"))
-                        return;
-                    if (!checkEmpty(this.bean.subTitle, "小标题"))
-                        return;
-                    if (!checkNumber(this.bean.originalPrice, "原价格"))
-                        return;
-                    if (!checkNumber(this.bean.promotePrice, "优惠价格"))
-                        return;
-                    if (!checkInt(this.bean.stock, "库存"))
+                    if (!checkEmpty(this.bean.name, "产品名称")) {
                         return;
 
+                    }
+                    if (!checkEmpty(this.bean.subTitle, "小标题")) {
+                        return;
+
+                    }
+                    if (!checkNumber(this.bean.originalPrice, "原价格")) {
+                        return;
+
+                    }
+                    if (!checkNumber(this.bean.promotePrice, "优惠价格")) {
+                        return;
+                    }
+                    if (!checkInt(this.bean.stock, "库存")) {
+                        return;
+                    }
                     let url = this.uri + "/add";
                     this.bean.category.id = cid;
                     axios.post(url, this.bean).then(function (response) {
@@ -77,8 +84,8 @@
                         return;
                     let url = this.uri + "/" + id;
                     axios.delete(url).then(function (response) {
-                        if (response.data.success) {
-                            alert(response.data.message);
+                        if (response.data.success == 0) {
+                            alert("删除成功！");
                         } else {
                             vue.list(0);
                         }

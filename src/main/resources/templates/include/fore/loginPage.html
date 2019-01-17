@@ -1,13 +1,13 @@
 <div th:fragment="html">
     <script>
         $(function () {
-            var data4Vue = {
+            let data4Vue = {
                 uri: 'foreLogin',
                 result: [],
                 user: {name: '', password: ''}
             };
             //ViewModel
-            var vue = new Vue({
+            let vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
                 mounted: function () {
@@ -15,7 +15,7 @@
                 },
                 methods: {
                     login: function () {
-                        var url = this.uri;
+                        let url = this.uri;
                         if (0 == this.user.name.length) {
                             $("span.errorMessage").html("请输入用户名");
                             $("div.loginErrorMessageDiv").css("visibility", "visible");
@@ -28,7 +28,7 @@
                         }
 
                         axios.post(url, this.user).then(function (response) {
-                            var result = response.data;
+                            let result = response.data;
                             if (result.code == 0) {
                                 location.href = "home";
                             } else {
@@ -40,7 +40,7 @@
                 }
             });
 
-            var left = window.innerWidth / 2 + 162;
+            let left = window.innerWidth / 2 + 162;
             $("div.loginSmallDiv").css("left", left);
         })
     </script>

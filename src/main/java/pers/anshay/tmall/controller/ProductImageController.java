@@ -10,7 +10,7 @@ import pers.anshay.tmall.service.IProductImageService;
 import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.ImageUtil;
-import pers.anshay.tmall.util.TmResult;
+import pers.anshay.tmall.util.Result;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -40,13 +40,13 @@ public class ProductImageController {
      *
      * @param pid  productId
      * @param type single/detail
-     * @return TmResult
+     * @return Result
      */
     @GetMapping("/{pid}/list")
-    public TmResult list(@PathVariable("pid") Integer pid, String type) {
+    public Result list(@PathVariable("pid") Integer pid, String type) {
         Product product = productService.get(pid);
         List<ProductImage> list = productImageService.listProductImage(product, type);
-        return new TmResult(true, "查询list成功", list);
+        return Result.success(list);
     }
 
     /**
@@ -56,10 +56,10 @@ public class ProductImageController {
      * @param type    single/detail
      * @param image   image
      * @param request request
-     * @return TmResult
+     * @return Result
      */
     @PostMapping("/add")
-    public TmResult add(Integer pid, String type, MultipartFile image, HttpServletRequest request) {
+    public Result add(Integer pid, String type, MultipartFile image, HttpServletRequest request) {
         ProductImage productImage = new ProductImage();
         Product product = productService.get(pid);
         productImage.setProduct(product);
@@ -100,7 +100,7 @@ public class ProductImageController {
             ImageUtil.resizeImage(file, 217, 190, folderMiddle);
         }
 
-        return new TmResult(true, "添加成功", productImage);
+        return Result.success(productImage);
     }
 
     /**
@@ -108,10 +108,10 @@ public class ProductImageController {
      *
      * @param id      id
      * @param request request
-     * @return TmResult
+     * @return Result
      */
     @DeleteMapping("/{id}")
-    public TmResult delete(@PathVariable("id") Integer id, HttpServletRequest request) {
+    public Result delete(@PathVariable("id") Integer id, HttpServletRequest request) {
         ProductImage productImage = productImageService.get(id);
         productImageService.delete(id);
 
@@ -135,6 +135,6 @@ public class ProductImageController {
             folderSmall.delete();
             folderMiddle.delete();
         }
-        return new TmResult(true, "删除成功");
+        return Result.success();
     }
 }

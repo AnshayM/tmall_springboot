@@ -57,8 +57,8 @@
                     axios.delete(url).then(function (response) {
                         console.log("返回删除结果");
                         console.log(response);
-                        if (response.data.success) {
-                            alert(response.data.message);
+                        if (response.data.success == 0) {
+                            alert("删除成功！");
                         }
                         else {
                             vue.list(0);
