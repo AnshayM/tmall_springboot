@@ -1,7 +1,7 @@
 <div class th:fragment="html">
     <div class="searchProducts">
         <div class="productUnit" price="${p.promotePrice}" v-for="p in products">
-            <a :href="'foreProduct?pid='+p.id">
+            <a :href="'product?pid='+p.id">
                 <img class="productImage" :src="'img/productSingle/'+p.firstProductImage.id+'.jpg'">
             </a>
             <span class="productPrice">
