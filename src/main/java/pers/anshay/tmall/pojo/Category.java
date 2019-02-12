@@ -1,6 +1,10 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +18,10 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
+@Getter
+@Setter
+@Accessors(chain = true)
+@ToString
 public class Category {
 
     @Id
@@ -29,43 +37,4 @@ public class Category {
     @Transient
     List<List<Product>> productsByRow;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public List<List<Product>> getProductsByRow() {
-        return productsByRow;
-    }
-
-    public void setProductsByRow(List<List<Product>> productsByRow) {
-        this.productsByRow = productsByRow;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
