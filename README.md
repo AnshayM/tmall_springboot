@@ -48,6 +48,14 @@ public void fill(Category category) {
   采用RestFull风格，并且每次提交时都先使用阿里巴巴编码规约插件扫描代码，修缮后再提交。
   虽然不是企业向项目，但保持一个好的代码习惯也是必要的。
 
+# lombok
+lombok是工具类，可以一个简化pojo类的编写。具体介绍我后面会在博客中添加。
+
+在idea中使用lombok，需要添加Lombok Plugin插件。
+![安装插件](https://i.loli.net/2019/02/12/5c62ea78b8382.png)
+
+然后在设置中启动annotation processors。
+![设置启动](https://i.loli.net/2019/02/12/5c62eac94c8a5.png)
 
 # 图片资源
 - 项目使用的图片资源有200多m，放在这里：  
