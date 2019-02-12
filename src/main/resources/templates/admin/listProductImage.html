@@ -80,8 +80,8 @@
                     axios.delete(url).then(function (response) {
                         vue.listSingles();
                         vue.listDetails();
-                        if (response.data.success) {
-                            alert(response.data.message);
+                        if (response.data.success == 0) {
+                            alert("删除成功！");
                         }
                     });
                 },

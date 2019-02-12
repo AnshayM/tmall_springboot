@@ -6,7 +6,7 @@
 <div th:replace="include/admin/adminNavigator::html" ></div>
 <script>
     $(function(){
-        var data4Vue = {
+        let data4Vue = {
             uri: 'property',
             listURL:'admin_property_list',
             bean: '',
@@ -14,7 +14,7 @@
         };
 
         //ViewModel
-        var vue = new Vue({
+        let vue = new Vue({
             el: '#workingArea',
             data: data4Vue,
             mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
@@ -25,7 +25,7 @@
                     let id = getUrlParms("id");
                     let url = this.uri+"/"+id;
                     axios.get(url).then(function(response) {
-                        vue.bean = response.data.content;
+                        vue.bean = response.data.data;
                         vue.category = vue.bean.category;
                     })
                 },

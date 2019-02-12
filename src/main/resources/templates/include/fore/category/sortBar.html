@@ -2,7 +2,7 @@
     <script>
         $(function(){
             $("input.sortBarPrice").keyup(function(){
-                var num= $(this).val();
+                let num= $(this).val();
                 if(num.length==0){
                     $("div.productUnit").show();
                     return;
@@ -15,12 +15,12 @@
                     num = 1;
                 $(this).val(num);
 
-                var begin = $("input.beginPrice").val();
-                var end = $("input.endPrice").val();
+                let begin = $("input.beginPrice").val();
+                let end = $("input.endPrice").val();
                 if(!isNaN(begin) && !isNaN(end)){
                     $("div.productUnit").hide();
                     $("div.productUnit").each(function(){
-                        var price = $(this).attr("price");
+                        let price = $(this).attr("price");
                         price = new Number(price);
 
                         if(price<=end && price>=begin)

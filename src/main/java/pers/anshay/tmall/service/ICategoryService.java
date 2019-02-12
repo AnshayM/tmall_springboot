@@ -68,7 +68,7 @@ public interface ICategoryService {
      * 更新category
      *
      * @param category category
-     * @return TmResult
+     * @return Result
      */
     void update(Category category);
 

@@ -10,17 +10,17 @@
 
 
         function getUrlParms(para){
-            var search=location.search; //页面URL的查询部分字符串
-            var arrPara=new Array(); //参数数组。数组单项为包含参数名和参数值的字符串，如“para=value”
-            var arrVal=new Array(); //参数值数组。用于存储查找到的参数值
+            let search=location.search; //页面URL的查询部分字符串
+            let arrPara=new Array(); //参数数组。数组单项为包含参数名和参数值的字符串，如“para=value”
+            let arrVal=new Array(); //参数值数组。用于存储查找到的参数值
 
             if(search!=""){
-                var index=0;
+                let index=0;
                 search=search.substr(1); //去除开头的“?”
                 arrPara=search.split("&");
 
                 for(i in arrPara){
-                    var paraPre=para+"="; //参数前缀。即参数名+“=”，如“para=”
+                    let paraPre=para+"="; //参数前缀。即参数名+“=”，如“para=”
                     if(arrPara[i].indexOf(paraPre)==0&& paraPre.length<arrPara[i].length){
                         arrVal[index]=decodeURI(arrPara[i].substr(paraPre.length)); //顺带URI解码避免出现乱码
                         index++;
@@ -48,14 +48,14 @@
             num = Math.floor(num/100).toString();
             if(cents<10)
                 cents = "0" + cents;
-            for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+            for (let i = 0; i < Math.floor((num.length-(1+i))/3); i++)
                 num = num.substring(0,num.length-(4*i+3))+','+
                     num.substring(num.length-(4*i+3));
             return (((sign)?'':'-') + num + '.' + cents);
         }
 
         function checkEmpty(id, name){
-            var value = $("#"+id).val();
+            let value = $("#"+id).val();
             if(value.length==0){
                 $("#"+id)[0].focus();
                 return false;

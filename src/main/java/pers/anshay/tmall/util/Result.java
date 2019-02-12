@@ -28,6 +28,10 @@ public class Result {
         return new Result(SUCCESS_CODE, "", data);
     }
 
+    public static Result success(String msg, Object data) {
+        return new Result(SUCCESS_CODE, msg, data);
+    }
+
     public static Result fail(String message) {
         return new Result(FAIL_CODE, message, null);
     }

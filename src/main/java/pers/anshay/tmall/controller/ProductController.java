@@ -7,7 +7,7 @@ import pers.anshay.tmall.service.ICategoryService;
 import pers.anshay.tmall.service.IProductService;
 import pers.anshay.tmall.util.ConstantKey;
 import pers.anshay.tmall.util.Page4Navigator;
-import pers.anshay.tmall.util.TmResult;
+import pers.anshay.tmall.util.Result;
 
 import java.util.Date;
 
@@ -44,48 +44,48 @@ public class ProductController {
      * 添加
      *
      * @param product product
-     * @return TmResult
+     * @return Result
      */
     @PostMapping("/add")
-    public TmResult add(@RequestBody Product product) {
+    public Result add(@RequestBody Product product) {
         product.setCreateDate(new Date());
         Product bean = productService.add(product);
-        return new TmResult(true, "添加成功！", bean);
+        return Result.success(bean);
     }
 
     /**
      * 删除
      *
      * @param id id
-     * @return TmResult
+     * @return Result
      */
     @DeleteMapping("/{id}")
-    public TmResult delete(@PathVariable("id") Integer id) {
+    public Result delete(@PathVariable("id") Integer id) {
         productService.delete(id);
-        return new TmResult(true, "删除成功", id);
+        return Result.success();
     }
 
     /**
      * 更新
      *
      * @param product product
-     * @return TmResult
+     * @return Result
      */
     @PutMapping("/update")
-    public TmResult update(@RequestBody Product product) {
+    public Result update(@RequestBody Product product) {
         productService.update(product);
-        return new TmResult(true, "更新成功", product);
+        return Result.success(product);
     }
 
     /**
      * 查询单个Product
      *
      * @param id id
-     * @return TmResult
+     * @return Result
      */
     @GetMapping("/{id}")
-    public TmResult get(@PathVariable("id") Integer id) {
+    public Result get(@PathVariable("id") Integer id) {
         Product product = productService.get(id);
-        return new TmResult(true, "查询成功！", product);
+        return Result.success(product);
     }
 }

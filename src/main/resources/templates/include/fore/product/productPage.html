@@ -1,8 +1,8 @@
 <div th:fragment="html">
     <script>
         $(function(){
-            var pid = getUrlParms("pid");
-            var data4Vue = {
+            let pid = getUrlParms("pid");
+            let data4Vue = {
                 uri:'foreProduct',
                 p:'',
                 category:null,
@@ -14,7 +14,7 @@
                 user:{name:'', password:''}
             };
             //ViewModel
-            var vue = new Vue({
+            let vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
                 mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
@@ -23,9 +23,9 @@
                 },
                 methods: {
                     load:function(){
-                        var url =  this.uri+"/"+pid;
+                        let url =  this.uri+"/"+pid;
                         axios.get(url).then(function(response) {
-                            var result = response.data;
+                            let result = response.data;
                             vue.p=result.data.product;
                             vue.pvs=result.data.pvs;
                             vue.reviews=result.data.reviews;

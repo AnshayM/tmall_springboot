@@ -27,7 +27,7 @@
                     let id = getUrlParms("id");
                     let url = this.uri+"/"+id;
                     axios.get(url).then(function(response) {
-                        vue.bean = response.data.content;
+                        vue.bean = response.data.data;
                         vue.category = vue.bean.category;
                     })
                 },

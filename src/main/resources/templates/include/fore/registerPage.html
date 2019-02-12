@@ -1,13 +1,13 @@
 <div th:fragment="html">
     <script>
         $(function(){
-            var data4Vue = {
+            let data4Vue = {
                 uri:'foreRegister',
                 result: [],
                 user:{name:'', password:'', repeatpassword:''}
             };
             //ViewModel
-            var vue = new Vue({
+            let vue = new Vue({
                 el: '#workingArea',
                 data: data4Vue,
                 mounted:function(){
@@ -15,7 +15,7 @@
                 },
                 methods: {
                     register:function(){
-                        var url =  this.uri;
+                        let url =  this.uri;
                         if(0==this.user.name.length){
                             $("span.errorMessage").html("请输入用户名");
                             $("div.registerErrorMessageDiv").css("visibility","visible");
@@ -38,7 +38,7 @@
                         }
 
                         axios.post(url,this.user).then(function(response) {
-                            var result = response.data;
+                            let result = response.data;
                             if(result.code==0){
                                 location.href="registerSuccess";
                             }

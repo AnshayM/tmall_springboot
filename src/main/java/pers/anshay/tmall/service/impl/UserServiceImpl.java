@@ -44,7 +44,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Cacheable(key = "'users-one-name-'+ #p")
+//    @Cacheable(key = "'users-one-name-'+ #p")
     public User getByName(String name) {
         return userDao.findByName(name);
     }
