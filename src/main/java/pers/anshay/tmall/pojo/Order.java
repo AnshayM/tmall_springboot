@@ -2,9 +2,6 @@ package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import pers.anshay.tmall.util.ConstantKey;
 
 import javax.persistence.*;
