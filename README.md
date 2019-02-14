@@ -49,14 +49,17 @@ public void fill(Category category) {
   虽然不是企业向项目，但保持一个好的代码习惯也是必要的。
 
 # lombok
-lombok是工具类，可以一个简化pojo类的编写。具体介绍我后面会在博客中添加。
+lombok是一个工具类，可以简化pojo类的编写。
+在pojo类上加@Date注解，即可自动注入setter/getter方法、toString方法、各种构造器、实现链式调用等。
 
-在idea中使用lombok，需要添加Lombok Plugin插件。
+在idea中使用Lombok，需要安装相应插件。
 ![安装插件](https://i.loli.net/2019/02/12/5c62ea78b8382.png)
 
 然后在设置中启动annotation processors。
 ![设置启动](https://i.loli.net/2019/02/12/5c62eac94c8a5.png)
 
+
+更多使用信息可以查看[Lombok官方文档](https://projectlombok.org/features/all)。
 # 图片资源
 - 项目使用的图片资源有200多m，放在这里：  
 [项目中的图片资源链接](https://pan.baidu.com/s/1VtjKkjXAxAp54S0qZpTTuw)—
