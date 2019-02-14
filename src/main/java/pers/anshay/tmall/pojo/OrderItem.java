@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,9 +17,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "orderItem")
 @JsonIgnoreProperties({"handler", "hibernateLayInitializer"})
-@Getter
-@Setter
-@Accessors(chain = true)
+@Data
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

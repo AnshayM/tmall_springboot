@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,10 +19,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-@Getter
-@Setter
-@ToString
-@Accessors(chain = true)
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,10 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-@Getter
-@Setter
-@Accessors(chain = true)
-@ToString
+@Data
 public class Category {
 
     @Id

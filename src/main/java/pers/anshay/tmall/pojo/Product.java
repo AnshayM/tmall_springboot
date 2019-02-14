@@ -1,6 +1,7 @@
 package pers.anshay.tmall.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,10 +22,7 @@ import java.util.List;
 @Table(name = "product")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 @Document(indexName = "tmall_springboot", type = "product")
-@Getter
-@Setter
-@ToString
-@Accessors(chain = true)
+@Data
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
